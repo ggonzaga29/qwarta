@@ -265,3 +265,6 @@ pyrightconfig.json
 
 .history/
 venv
+.vscode/
+.vscode
+
