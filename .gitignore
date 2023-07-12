@@ -264,3 +264,4 @@ poetry.toml
 pyrightconfig.json
 
 .history/
+venv
