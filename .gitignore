@@ -263,6 +263,7 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
+.history
 .history/
 venv
 .vscode/
