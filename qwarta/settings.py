@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
     'authentication',
     'dashboard'
 ]
@@ -50,15 +51,21 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middleware.auth_middleware'
 ]
 
 ROOT_URLCONF = 'qwarta.urls'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'core/static')
+]
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-              os.path.join(BASE_DIR, 'templates'),
+              os.path.join(BASE_DIR, 'core/templates'),
               ],
         'APP_DIRS': True,
         'OPTIONS': {

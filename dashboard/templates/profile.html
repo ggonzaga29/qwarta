@@ -1,0 +1,91 @@
+{% extends 'main.html' %}
+
+{% block title %}Profile - Qwarta{% endblock %}
+
+{% block heading %}
+    User Profile
+{% endblock %}
+
+{% block content %}
+    <div>
+        <div class="px-4 sm:px-0">
+            <h3 class="text-base font-semibold leading-7 text-gray-900">User Information</h3>
+            <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
+        </div>
+        <div class="mt-6 border-t border-gray-100">
+            <form>
+                {% csrf_token %}
+                <div class="divide-y divide-gray-100">
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <label class="text-sm font-medium leading-6 text-gray-900" for="first_name">First name</label>
+                        <div>
+                            <input type="text" name="first_name" id="first_name"
+                                   class="block w-full rounded-md border-0 py-1.5 px-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                   value="{{ user.first_name }}"
+                            >
+
+                        </div>
+                    </div>
+
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <label class="text-sm font-medium leading-6 text-gray-900" for="last_name">Last name</label>
+                        <div>
+                            <input type="text" name="last_name" id="last_name"
+                                   class="block w-full rounded-md border-0 py-1.5 px-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                   value="{{ user.last_name }}"
+                            >
+
+                        </div>
+                    </div>
+
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <label class="text-sm font-medium leading-6 text-gray-900" for="email">Email</label>
+                        <div>
+                            <input type="text" name="email" id="email"
+                                   class="block w-full rounded-md border-0 py-1.5 px-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                   value="{{ user.email }}"
+                            >
+
+                        </div>
+                    </div>
+
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <label class="text-sm font-medium leading-6 text-gray-900" for="address">Address</label>
+                        <div>
+                        <textarea type="text" name="address" id="address"
+                                  class="block w-full rounded-md border-0 py-1.5 px-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        >{{ user.address }}</textarea>
+
+                        </div>
+                    </div>
+
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <label class="text-sm font-medium leading-6 text-gray-900" for="mobile_number">Mobile
+                            number</label>
+                        <div>
+                            <input type="number" name="mobile_number" id="mobile_number"
+                                   class="block w-full rounded-md border-0 py-1.5 px-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                   value="{{ user.mobile_number }}"
+                            >
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr class="h-[1px] my-4 bg-gray-300 border-0">
+            <div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <label class="text-sm font-medium leading-6 text-gray-900" for="confirm_password">Confirm
+                        password</label>
+                    <div>
+                        <input type="password" name="confirm_password" id="confirm_password"
+                               class="block w-full rounded-md border-0 py-1.5 px-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        >
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+```
