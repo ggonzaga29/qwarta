@@ -6,6 +6,9 @@ def auth_middleware(get_response):
         '/login/',
         '/register/',
         '/logout/',
+        '/login',
+        '/register',
+        '/logout'
     ]
 
     def middleware(request):
