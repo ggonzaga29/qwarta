@@ -64,3 +64,7 @@ class Payment(models.Model):
 # - Payment
 # - Credit Score
 # - Loan Application
+
+
+# seed data
+

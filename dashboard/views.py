@@ -1,13 +1,19 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from core.models import User, Client
+from core.models import User, Client, Payment
 
 
 class IndexView(View):
     def get(self, request):
         userCount = Client.objects.count()
+        # Sum of payments
+        payments = Payment.objects.all()
+        totalPayments = 0
+        for payment in payments:
+            totalPayments += payment.amount
 
-        return render(request, "index.html", {"userCount": userCount})
+
+        return render(request, "dashboard.html", {"userCount": userCount, "totalPayments": totalPayments})
 
 
 class ProfileView(View):

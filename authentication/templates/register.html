@@ -52,6 +52,8 @@
                         <input id="password"
                                class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
                                type="password" placeholder="••••••••" name="password">
+                        <span class="text-[11px] text-gray-400">Your password</span>
+
                     </div>
 
                     <div class="flex flex-col justify-center">
@@ -59,6 +61,8 @@
                         <input id="confirm_password"
                                class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
                                type="password" placeholder="••••••••" name="confirm_password">
+                        <span class="text-[11px] text-gray-400">Confirm your password</span>
+
                     </div>
                 </div>
 
@@ -84,12 +88,13 @@
                         <input id="address"
                                class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
                                type="text" placeholder="Labangon, Cebu City" name="address">
+                        <span class="text-[11px] text-gray-400">Your address</span>
                     </div>
 
                     <div class="flex flex-col justify-center">
                         <label class="font-semibold text-xs" for="mobile_number">Mobile number</label>
                         <div class="relative flex-1">
-                            <div class="absolute rounded h-12 w-12 bg-white border text-sm flex justify-center items-center bottom-0 left-0">
+                            <div class="font-medium text-sm absolute rounded h-12 w-12 bg-white border text-sm flex justify-center items-center bottom-0 left-0">
                                 +63
                             </div>
                             <input id="mobile_number"
@@ -97,6 +102,7 @@
                                    type="number" pattern="[0-9]{10}" placeholder="9667334990"
                                    title="Please enter a 10-digit mobile number" name="mobile_number">
                         </div>
+                        <span class="text-[11px] text-gray-400">Your mobile number</span>
                     </div>
                 </div>
 
@@ -112,7 +118,7 @@
                     <div class="flex flex-col justify-center ">
                         <label class="font-semibold text-xs" for="monthly_income">Monthly Income</label>
                         <div class="relative flex-1">
-                            <div class="absolute rounded h-12 w-12 bg-white border text-sm flex justify-center items-center bottom-0 left-0">
+                            <div class="text-sm font-medium absolute rounded h-12 w-12 bg-white border text-sm flex justify-center items-center bottom-0 left-0">
                                 Php
                             </div>
                             <input id="monthly_income"
@@ -125,7 +131,7 @@
                     <div class="flex flex-col justify-center">
                         <label class="font-semibold text-xs" for="net_worth">Net Worth</label>
                         <div class="relative flex-1">
-                            <div class="absolute rounded h-12 w-12 bg-white border text-sm flex justify-center items-center bottom-0 left-0">
+                            <div class="text-sm font-medium absolute rounded h-12 w-12 bg-white border text-sm flex justify-center items-center bottom-0 left-0">
                                 Php
                             </div>
                             <input id="net_worth"
@@ -140,17 +146,32 @@
                 <div class="w-full col-span-1 flex justify-between" data-buttons-container>
                     <button class="flex-start p-8 bg-gray-400 px-6 py-3 rounded mt-5 font-semibold text-sm text-blue-100 hover:bg-gray-500 flex justify-center items-center gap-2"
                             data-prev-button>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left w-4 h-4"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="lucide lucide-arrow-left w-4 h-4">
+                            <path d="m12 19-7-7 7-7"/>
+                            <path d="M19 12H5"/>
+                        </svg>
                         Back
                     </button>
                     <button class="flex-end p-8 bg-blue-600 px-6 py-3 rounded mt-5 font-semibold text-sm text-blue-100 hover:bg-blue-700 flex flex-row-reverse justify-center items-center gap-2"
                             data-next-button>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-4 h-4"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="lucide lucide-arrow-right w-4 h-4">
+                            <path d="M5 12h14"/>
+                            <path d="m12 5 7 7-7 7"/>
+                        </svg>
                         Next
                     </button>
                     <button class="p-8 bg-green-600 px-6 py-3 rounded mt-5 font-semibold text-sm text-blue-100 hover:bg-green-700 flex justify-center items-center gap-2"
                             data-submit-button>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send h-4 w-4"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="lucide lucide-send h-4 w-4">
+                            <path d="m22 2-7 20-4-9-9-4Z"/>
+                            <path d="M22 2 11 13"/>
+                        </svg>
                         Create an account
                     </button>
                 </div>
@@ -177,12 +198,110 @@
         const nextButton = document.querySelector('[data-next-button]');
         const prevButton = document.querySelector('[data-prev-button]');
         const submitButton = document.querySelector('[data-submit-button]');
-        const buttonsContainer = document.querySelector('[data-buttons-container]');
+        const buttonsContainer = document.querySelector('[data-buttons-container]')
+
+        // Inputs
+        const usernameInput = document.querySelector('#username');
+        const emailInput = document.querySelector('#email');
+        const passwordInput = document.querySelector('#password');
+        const confirmPasswordInput = document.querySelector('#confirm_password');
+        const firstNameInput = document.querySelector('#first_name');
+        const lastNameInput = document.querySelector('#last_name');
+        const addressInput = document.querySelector('#address');
+        const mobileNumberInput = document.querySelector('#mobile_number');
+        const occupationInput = document.querySelector('#occupation');
+        const monthlyIncomeInput = document.querySelector('#monthly_income');
+        const netWorthInput = document.querySelector('#net_worth');
+
+        Element.prototype.setErrorMessage = function (message) {
+            this.classList.add('border-red-500');
+            this.classList.add('focus:ring-red-500');
+            this.focus();
+            this.nextElementSibling.innerText = message;
+            this.nextElementSibling.classList.add('text-red-500');
+        }
+
+        Element.prototype.removeErrorMessage = function () {
+            this.classList.remove('border-red-500');
+            this.classList.add('focus:ring-blue-500');
+            this.nextElementSibling.innerText = '';
+            this.nextElementSibling.classList.remove('text-red-500');
+        }
+
 
         let currentStep = 1;
 
         nextButton.addEventListener('click', (e) => {
             e.preventDefault();
+
+            if (currentStep === 1) {
+                if (usernameInput.value.length < 5) {
+                    usernameInput.setErrorMessage('Username must be at least 5 characters long')
+                    return;
+                } else {
+                    usernameInput.removeErrorMessage();
+                }
+
+                if (emailInput.value.length < 5) {
+                    emailInput.setErrorMessage('Email must be at least 5 characters long')
+                    return;
+                } else {
+                    emailInput.removeErrorMessage();
+                }
+
+                if (passwordInput.value.length < 8) {
+                    passwordInput.setErrorMessage('Password must be at least 8 characters long')
+                    return;
+                } else {
+                    passwordInput.removeErrorMessage();
+                }
+
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    confirmPasswordInput.setErrorMessage('Passwords do not match');
+                    return;
+                } else {
+                    confirmPasswordInput.removeErrorMessage();
+                }
+            }
+
+            if (currentStep === 2) {
+                if (firstNameInput.value.length < 2) {
+                    firstNameInput.setErrorMessage('First name must be at least 2 characters long')
+                    return;
+                } else {
+                    firstNameInput.removeErrorMessage();
+                }
+
+                if (lastNameInput.value.length < 2) {
+                    lastNameInput.setErrorMessage('Last name must be at least 2 characters long')
+                    return;
+                } else {
+                    lastNameInput.removeErrorMessage();
+                }
+
+                if (addressInput.value.length < 5) {
+                    addressInput.setErrorMessage('Address must be at least 5 characters long')
+                    return;
+                } else {
+                    addressInput.removeErrorMessage();
+                }
+
+                if (mobileNumberInput.value.length < 9) {
+                    mobileNumberInput.focus();
+                    mobileNumberInput.classList.add('border-red-500');
+                    mobileNumberInput.classList.add('focus:ring-red-500');
+                    mobileNumberInput.nextElementSibling.innerText = 'Mobile number must be at least 9 characters long';
+                    mobileNumberInput.nextElementSibling.classList.add('text-red-500');
+                    return;
+                } else {
+                    mobileNumberInput.classList.remove('border-red-500');
+                    mobileNumberInput.classList.remove('focus:ring-red-500');
+                    mobileNumberInput.nextElementSibling.innerText = '';
+                    mobileNumberInput.nextElementSibling.classList.remove('text-red-500');
+                }
+            }
+
+
             currentStep++;
             updateStep();
         });
@@ -193,6 +312,51 @@
             updateStep();
         });
 
+
+        submitButton.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            if (currentStep === 3) {
+                if (occupationInput.value.length < 2) {
+                    occupationInput.setErrorMessage('Occupation must be at least 2 characters long')
+                    return;
+                } else {
+                    occupationInput.removeErrorMessage();
+                }
+
+                if (monthlyIncomeInput.value.length < 1) {
+                    monthlyIncomeInput.focus();
+                    monthlyIncomeInput.classList.add('border-red-500');
+                    mobileNumberInput.classList.add('focus:ring-red-500');
+                    monthlyIncomeInput.parentElement.nextElementSibling.innerText = 'Monthly income must be at least 1 character long';
+                    monthlyIncomeInput.parentElement.nextElementSibling.classList.add('text-red-500');
+                    return;
+                } else {
+                    monthlyIncomeInput.classList.remove('border-red-500');
+                    mobileNumberInput.classList.remove('focus:ring-red-500');
+                    monthlyIncomeInput.parentElement.nextElementSibling.innerText = 'Your monthly income';
+                    monthlyIncomeInput.parentElement.nextElementSibling.classList.remove('text-red-500');
+                }
+
+                if (netWorthInput.value.length < 1) {
+                    netWorthInput.focus();
+                    netWorthInput.classList.add('border-red-500');
+                    netWorthInput.classList.add('focus:ring-red-500');
+                    netWorthInput.parentElement.nextElementSibling.innerText = 'Net worth must be at least 1 character long';
+                    netWorthInput.parentElement.nextElementSibling.classList.add('text-red-500');
+                    return;
+                } else {
+                    netWorthInput.classList.remove('border-red-500');
+                    netWorthInput.classList.remove('focus:ring-red-500');
+                    netWorthInput.parentElement.nextElementSibling.innerText = 'Your total net worth';
+                    netWorthInput.parentElement.nextElementSibling.classList.remove('text-red-500');
+                }
+            }
+
+            if (confirm('Are you sure you want to submit?')) {
+                document.querySelector('form').submit();
+            }
+        });
 
         function updateStep() {
             stepContainers.forEach(stepContainer => {
