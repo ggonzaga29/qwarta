@@ -1,17 +1,42 @@
 {% extends 'default.html' %}
-
+{% load static %}
 {% block content %}
     <div class="flex flex-col items-center justify-center w-screen h-screen bg-gray-200 text-gray-700">
-        <div class="w-full max-w-xl">
-            <h1 class="font-bold text-3xl text-center">Create an Account</h1>
-            <form class="flex flex-col bg-white rounded shadow-lg mt-5 w-full p-12" method="post">
+        <div class="w-full max-w-xl flex flex-col items-center px-4 md:px-0">
+
+            <div class="flex mb-5 items-center gap-5">
+                <img src="{% static "images/qwarta.png" %}" class="w-16 h-16">
+            </div>
+            <h1 class="font-bold text-xl text-center">Create an Account</h1>
+
+            <ol class="flex bg-white items-center rounded shadow p-4 my-4 mt-8 w-full justify-between font-medium text-center text-gray-500 sm:text-base">
+                <li data-step-indicator="1"
+                    class="text-sm flex md:w-full items-center ">
+                    <span class="mr-2">1</span>
+                    Account <span class="hidden sm:inline-flex sm:ml-2">Info</span>
+                    </span>
+                </li>
+                <li data-step-indicator="2"
+                    class="text-sm flex md:w-full items-center ">
+                    <span class="mr-2">2</span>
+                    Personal <span class="hidden sm:inline-flex sm:ml-2">Info</span>
+                    </span>
+                </li>
+                <li class="text-sm flex items-center" data-step-indicator="3">
+                    <span class="mr-2">3</span>
+                    Occupation
+                </li>
+            </ol>
+
+            <form class="flex flex-col bg-white rounded shadow-lg w-full p-4 py-12 md:p-12" method="post">
                 {% csrf_token %}
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 gap-4" data-step="1">
                     <div class="flex flex-col justify-center">
                         <label class="font-semibold text-xs" for="username">Username</label>
                         <input id="username"
                                class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
                                type="text" placeholder="john_doe" name="username">
+                        <span class="text-[11px] text-gray-400">Your username</span>
                     </div>
 
                     <div class="flex flex-col justify-center">
@@ -19,37 +44,8 @@
                         <input id="email"
                                class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
                                type="email" placeholder="example@company.com" name="email">
+                        <span class="text-[11px] text-gray-400">Your email address</span>
                     </div>
-
-                    <div class="flex flex-col justify-center">
-                        <label class="font-semibold text-xs" for="first_name">First name</label>
-                        <input id="first_name"
-                               class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
-                               type="text" placeholder="John" name="first_name">
-                    </div>
-
-                    <div class="flex flex-col justify-center">
-                        <label class="font-semibold text-xs" for="last_name">Last name</label>
-                        <input id="last_name"
-                               class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
-                               type="text" placeholder="Doe" name="last_name">
-                    </div>
-
-                    <div class="flex flex-col justify-center">
-                        <label class="font-semibold text-xs" for="address">Address</label>
-                        <input id="address"
-                               class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
-                               type="text" placeholder="Labangon, Cebu City" name="address">
-                    </div>
-
-                    <div class="flex flex-col justify-center">
-                        <label class="font-semibold text-xs" for="mobile_number">Mobile number</label>
-                        <input id="mobile_number"
-                               class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
-                               type="number" pattern="[0-9]{10}" placeholder="09423919332"
-                               title="Please enter a 10-digit mobile number" name="mobile_number">
-                    </div>
-
 
                     <div class="flex flex-col justify-center">
                         <label class="font-semibold text-xs" for="password">Password</label>
@@ -64,22 +60,107 @@
                                class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
                                type="password" placeholder="••••••••" name="confirm_password">
                     </div>
-
-
                 </div>
-                <div class="w-full col-span-1">
-                    <button class="w-full p-8 bg-blue-600 px-6 py-3 rounded mt-5 font-semibold text-sm text-blue-100 hover:bg-blue-700 "
-                            type="submit">
+
+                <div class="grid grid-cols-1 gap-4" data-step="2">
+                    <div class="flex flex-col justify-center">
+                        <label class="font-semibold text-xs" for="first_name">First name</label>
+                        <input id="first_name"
+                               class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
+                               type="text" placeholder="John" name="first_name">
+                        <span class="text-[11px] text-gray-400">Your first name</span>
+                    </div>
+
+                    <div class="flex flex-col justify-center">
+                        <label class="font-semibold text-xs" for="last_name">Last name</label>
+                        <input id="last_name"
+                               class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
+                               type="text" placeholder="Doe" name="last_name">
+                        <span class="text-[11px] text-gray-400">Your legal last name</span>
+                    </div>
+
+                    <div class="flex flex-col justify-center">
+                        <label class="font-semibold text-xs" for="address">Address</label>
+                        <input id="address"
+                               class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
+                               type="text" placeholder="Labangon, Cebu City" name="address">
+                    </div>
+
+                    <div class="flex flex-col justify-center">
+                        <label class="font-semibold text-xs" for="mobile_number">Mobile number</label>
+                        <div class="relative flex-1">
+                            <div class="absolute rounded h-12 w-12 bg-white border text-sm flex justify-center items-center bottom-0 left-0">
+                                +63
+                            </div>
+                            <input id="mobile_number"
+                                   class="w-full h-12 pl-14 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
+                                   type="number" pattern="[0-9]{10}" placeholder="9667334990"
+                                   title="Please enter a 10-digit mobile number" name="mobile_number">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-4" data-step="3">
+                    <div class="flex flex-col justify-center">
+                        <label class="font-semibold text-xs" for="occupation">Occupation</label>
+                        <input id="occupation"
+                               class="h-12 px-4 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
+                               type="text" placeholder="John" name="occupation">
+                        <span class="text-[11px] text-gray-400">Your job</span>
+                    </div>
+
+                    <div class="flex flex-col justify-center ">
+                        <label class="font-semibold text-xs" for="monthly_income">Monthly Income</label>
+                        <div class="relative flex-1">
+                            <div class="absolute rounded h-12 w-12 bg-white border text-sm flex justify-center items-center bottom-0 left-0">
+                                Php
+                            </div>
+                            <input id="monthly_income"
+                                   class="h-12 pl-16 w-full  bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
+                                   type="number" placeholder="0.00" name="monthly_income">
+                        </div>
+                        <span class="text-[11px] text-gray-400">Your monthly income</span>
+                    </div>
+
+                    <div class="flex flex-col justify-center">
+                        <label class="font-semibold text-xs" for="net_worth">Net Worth</label>
+                        <div class="relative flex-1">
+                            <div class="absolute rounded h-12 w-12 bg-white border text-sm flex justify-center items-center bottom-0 left-0">
+                                Php
+                            </div>
+                            <input id="net_worth"
+                                   class="h-12 pl-16 w-full  bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2 text-sm"
+                                   type="number" placeholder="0.00" name="net_worth">
+                        </div>
+                        <span class="text-[11px] text-gray-400">Your total net worth</span>
+                    </div>
+                </div>
+
+
+                <div class="w-full col-span-1 flex justify-between" data-buttons-container>
+                    <button class="flex-start p-8 bg-gray-400 px-6 py-3 rounded mt-5 font-semibold text-sm text-blue-100 hover:bg-gray-500 flex justify-center items-center gap-2"
+                            data-prev-button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left w-4 h-4"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                        Back
+                    </button>
+                    <button class="flex-end p-8 bg-blue-600 px-6 py-3 rounded mt-5 font-semibold text-sm text-blue-100 hover:bg-blue-700 flex flex-row-reverse justify-center items-center gap-2"
+                            data-next-button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-4 h-4"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        Next
+                    </button>
+                    <button class="p-8 bg-green-600 px-6 py-3 rounded mt-5 font-semibold text-sm text-blue-100 hover:bg-green-700 flex justify-center items-center gap-2"
+                            data-submit-button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send h-4 w-4"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
                         Create an account
                     </button>
                 </div>
-                <div class="flex mt-6 justify-center text-xs col-span-1">
-                    <span>Already have an account?</span> <a class="text-blue-400 hover:text-blue-500 ml-1 font-bold"
-                                                               href="/login">Sign
-                    In</a>
-                </div>
-            </form>
 
+            </form>
+            <div class="flex mt-6 text-xs col-span-1">
+                <span>Already have an account?</span> <a class="text-blue-400 hover:text-blue-500 ml-1 font-bold"
+                                                         href="/login">Sign
+                In</a>
+            </div>
             {% if error %}
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-5 text-sm"
                      role="alert">
@@ -89,4 +170,75 @@
             {% endif %}
         </div>
     </div>
+
+    <script type="text/javascript">
+        const stepIndicators = Array.from(document.querySelectorAll('[data-step-indicator]'));
+        const stepContainers = Array.from(document.querySelectorAll('[data-step]'));
+        const nextButton = document.querySelector('[data-next-button]');
+        const prevButton = document.querySelector('[data-prev-button]');
+        const submitButton = document.querySelector('[data-submit-button]');
+        const buttonsContainer = document.querySelector('[data-buttons-container]');
+
+        let currentStep = 1;
+
+        nextButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentStep++;
+            updateStep();
+        });
+
+        prevButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentStep--;
+            updateStep();
+        });
+
+
+        function updateStep() {
+            stepContainers.forEach(stepContainer => {
+                stepContainer.classList.remove('grid');
+                stepContainer.classList.add('hidden');
+            });
+
+
+            const currentStepIndicator = stepIndicators.filter(stepIndicator => {
+                return parseInt(stepIndicator.dataset.stepIndicator) === currentStep;
+            })[0];
+
+            stepIndicators.forEach(stepIndicator => {
+                stepIndicator.classList.remove('text-blue-600');
+                stepIndicator.classList.add('text-gray-500');
+            });
+
+            currentStepIndicator.classList.remove('text-gray-500');
+            currentStepIndicator.classList.add('text-blue-600');
+
+
+            const currentStepContainer = stepContainers.filter(stepContainer => {
+                return parseInt(stepContainer.dataset.step) === currentStep;
+            })[0];
+            currentStepContainer.classList.remove('hidden');
+            currentStepContainer.classList.add('grid');
+
+            if (currentStep === 1) {
+                prevButton.classList.add('hidden');
+                buttonsContainer.classList.remove('justify-between');
+                buttonsContainer.classList.add('justify-end');
+            } else {
+                prevButton.classList.remove('hidden');
+                buttonsContainer.classList.remove('justify-end');
+                buttonsContainer.classList.add('justify-between');
+            }
+
+            if (currentStep === stepContainers.length) {
+                nextButton.classList.add('hidden');
+                submitButton.classList.remove('hidden');
+            } else {
+                nextButton.classList.remove('hidden');
+                submitButton.classList.add('hidden');
+            }
+        }
+
+        updateStep();
+    </script>
 {% endblock %}

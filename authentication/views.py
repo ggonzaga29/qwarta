@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views import View
 from django.db.models import Q
-from core.models import User
+from core.models import User, Client
+
 
 class LoginView(View):
     template_name = 'login.html'
@@ -36,6 +37,7 @@ class LoginView(View):
             return render(request, self.template_name, {'title': 'Login', 'error': 'User does not exist'})
 
 
+# Create a new client account
 class RegisterView(View):
     template_name = 'register.html'
 
@@ -51,9 +53,11 @@ class RegisterView(View):
         last_name = request.POST['last_name']
         mobile_number = request.POST['mobile_number']
         address = request.POST['address']
+        occupation = request.POST['occupation']
+        monthly_income = request.POST['monthly_income']
+        net_worth = request.POST['net_worth']
 
-        if username == '' or password == '' or email == '' or confirm_password == '' or first_name == '' or last_name == '' or mobile_number == '' or address == '':
-            print("Error")
+        if username == '' or password == '' or email == '' or confirm_password == '' or first_name == '' or last_name == '' or mobile_number == '' or address == '' or occupation == '' or monthly_income == '' or net_worth == '':
             return render(request, self.template_name, {'error': 'Please fill all fields'})
 
         if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
@@ -63,18 +67,20 @@ class RegisterView(View):
             return render(request, self.template_name, {'error': 'Passwords do not match'})
 
         # create user
-        user = User(
-            username=username,
-            password=password,
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            mobile_number=mobile_number,
-            address=address
-        )
+        client = Client()
+        client.username = username
+        client.password = password
+        client.email = email
+        client.first_name = first_name
+        client.last_name = last_name
+        client.mobile_number = mobile_number
+        client.address = address
+        client.occupation = occupation
+        client.monthly_income = monthly_income
+        client.net_worth = net_worth
 
         # save user
-        user.save()
+        client.save()
 
         # redirect to login page
         return redirect('/login')
@@ -84,4 +90,3 @@ class LogoutView(View):
     def get(self, request):
         request.session.flush()
         return redirect('/login')
-

@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from core.models import User
+from core.models import User, Client
 
 
 class IndexView(View):
     def get(self, request):
-        return render(request, "index.html", {})
+        userCount = Client.objects.count()
+
+        return render(request, "index.html", {"userCount": userCount})
 
 
 class ProfileView(View):
