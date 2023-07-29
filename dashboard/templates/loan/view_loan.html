@@ -65,49 +65,50 @@
                 </div>
             </div>
         </div>
-
-        <div class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
-            <div class="bg-yellow-400 w-full px-6 py-3 rounded-lg flex justify-between items-center">
-                <div>
-                    <h5 class="text-2xl font-bold tracking-tight  text-black">{{ client.last_name }}, {{ client.first_name }}
-                    </h5>
-                    <p class="text-sm  text-black">{{ client.email }}</p>           
+        <form class="flex-1"  method="post">
+            {% csrf_token %}
+            <div class="w-full block  bg-white border border-gray-200 rounded-lg shadow">
+                <div class="bg-yellow-400 w-full px-6 py-3 rounded-lg flex justify-between items-center">
+                    <div>
+                        <h5 class="text-2xl font-bold tracking-tight  text-black">{{ client.last_name }}, {{ client.first_name }}
+                        </h5>
+                        <p class="text-sm  text-black">{{ client.email }}</p>           
+                    </div>
+                    <button type="button" class="text-white font-semibold btn">Edit</button>
                 </div>
-                <button type="button" class="text-white font-semibold btn" >Edit</button>
+                <div class="p-6">
+                    <div class="flex flex-col gap-2">
+                        <b>Address</b>
+                        <p class="text-sm field" >{{ client.address }}</p>
+                        <input type="text" name="client_address" value="{{client.address}}" class="hidden input-field border bg-gray-200" >
+                    </div>
+                    <div class="mt-2 flex flex-col gap-2">
+                        <b>Occupation</b>
+                        <p class="text-sm field">{{ client.occupation }}</p>
+                        <input type="text" name="client_occupation" value="{{client.occupation}}" class="hidden input-field border bg-gray-200" >
+                    </div>
+                    <div class="mt-2 flex flex-col gap-2">
+                        <b>Monthly Income</b>
+                        <p class="text-sm field">{{ client.monthly_income }}</p>
+                        <input type="text" name="client_monthly_income" value="{{client.monthly_income}}" class="hidden input-field border bg-gray-200" >
+                    </div>
+                    <div class="mt-2 flex flex-col gap-2">
+                        <b>Net Worth</b>
+                        <p class="text-sm field">{{ client.net_worth }}</p>
+                        <input type="text" name="client_net_worth" value="{{client.net_worth}}" class="hidden input-field border bg-gray-200" >
+                    </div>
+                    <div class="mt-2 flex flex-col gap-2">
+                        <b>Contact Number</b>
+                        <p class="text-sm field">{{ client.mobile_number }}</p>
+                        <input type="text" name="client_mobile_number" value="{{client.mobile_number}}" class="hidden input-field border bg-gray-200" >
+                    </div>
+                    <br>
+                    <div class="flex justify-end">
+                        <button type="button" class="text-white font-semibold bg-gray-500 rounded-lg px-4 py-2 hidden input-field" type="submit">Save</button>
+                    </div>          
+                </div>
             </div>
-            <div class="p-6">
-                <div class="flex flex-col gap-2">
-                    <b>Address</b>
-                    <p class="text-sm field" >{{ client.address }}</p>
-                    <input type="text" value="{{client.address}}" class="hidden input-field border bg-gray-200" >
-                </div>
-                <div class="mt-2 flex flex-col gap-2">
-                    <b>Occupation</b>
-                    <p class="text-sm field">{{ client.occupation }}</p>
-                    <input type="text" value="{{client.occupation}}" class="hidden input-field border bg-gray-200" >
-                </div>
-                <div class="mt-2 flex flex-col gap-2">
-                    <b>Monthly Income</b>
-                    <p class="text-sm field">{{ client.monthly_income }}</p>
-                    <input type="text" value="{{client.monthly_income}}" class="hidden input-field border bg-gray-200" >
-                </div>
-                <div class="mt-2 flex flex-col gap-2">
-                    <b>Net Worth</b>
-                    <p class="text-sm field">{{ client.net_worth }}</p>
-                    <input type="text" value="{{client.net_worth}}" class="hidden input-field border bg-gray-200" >
-                </div>
-                <div class="mt-2 flex flex-col gap-2">
-                    <b>Contact Number</b>
-                    <p class="text-sm field">{{ client.mobile_number }}</p>
-                    <input type="text" value="{{client.mobile_number}}" class="hidden input-field border bg-gray-200" >
-                </div>
-                <br>
-                <div class="flex justify-end">
-                    <button type="button" class="text-white font-semibold bg-gray-500 rounded-lg px-4 py-2 hidden input-field">Save</button>
-                </div>
-                
-            </div>
-        </div>
+        </form>
     </div>
 
     <section class="mt-6">

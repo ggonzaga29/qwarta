@@ -139,5 +139,5 @@ class ViewApproveView(View):
         except Loan.DoesNotExist:
             return redirect("/dashboard?")
         
-
+# class EditProfileClient(View):
 
