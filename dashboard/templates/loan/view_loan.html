@@ -39,9 +39,18 @@
                     <p class="text-sm">{{ loan.interest_rate }}%</p>
                 </div>
                 <div class="mt-2">
+                    <b>Amount</b>
+                    <p class="text-sm">Php {{ loan.amount }}.00</p>
+                </div>
+                <div class="mt-2">
+                    <b>Amount to Pay</b>
+                    <p class="text-sm">Php {{ loan.amount_to_pay }}.00</p>
+                </div>
+                <div class="mt-2">
                     <b>Date of Approval</b>
                     <p class="text-sm">{{ loan.issue_date }}</p>
                 </div>
+
             </div>
         </div>
 

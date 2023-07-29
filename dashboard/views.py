@@ -123,7 +123,7 @@ class ApproveView(View):
 
 
 class ViewApproveView(View):
-    def __pos__(self, request, loan_id):
+    def get(self, request, loan_id):
         try:
             loan = Loan.objects.get(loan_id=loan_id)
             payments = Payment.objects.filter(loan_id=loan_id)
