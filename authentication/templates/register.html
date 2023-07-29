@@ -28,7 +28,7 @@
                 </li>
             </ol>
 
-            <form class="flex flex-col bg-white rounded shadow-lg w-full p-4 py-12 md:p-12" method="post">
+            <form class="form flex flex-col bg-white rounded shadow-lg w-full p-4 py-12 md:p-12" method="post">
                 {% csrf_token %}
                 <div class="grid grid-cols-1 gap-4" data-step="1">
                     <div class="flex flex-col justify-center">
@@ -193,6 +193,12 @@
     </div>
 
     <script type="text/javascript">
+			document.querySelector(".form").addEventListener('keydown', function(event) {
+				if (event.key === 'Enter' || event.keyCode === 13) {
+					event.preventDefault();
+				}
+			});
+
         const stepIndicators = Array.from(document.querySelectorAll('[data-step-indicator]'));
         const stepContainers = Array.from(document.querySelectorAll('[data-step]'));
         const nextButton = document.querySelector('[data-next-button]');
@@ -316,7 +322,8 @@
         submitButton.addEventListener('click', (e) => {
             e.preventDefault();
 
-            if (currentStep === 3) {
+						if (currentStep !== 3) return;
+
                 if (occupationInput.value.length < 2) {
                     occupationInput.setErrorMessage('Occupation must be at least 2 characters long')
                     return;
@@ -351,7 +358,6 @@
                     netWorthInput.parentElement.nextElementSibling.innerText = 'Your total net worth';
                     netWorthInput.parentElement.nextElementSibling.classList.remove('text-red-500');
                 }
-            }
 
             if (confirm('Are you sure you want to submit?')) {
                 document.querySelector('form').submit();
@@ -395,8 +401,8 @@
             }
 
             if (currentStep === stepContainers.length) {
-                nextButton.classList.add('hidden');
-                submitButton.classList.remove('hidden');
+                nextButton.classList.add('none');
+                submitButton.classList.remove('block');
             } else {
                 nextButton.classList.remove('hidden');
                 submitButton.classList.add('hidden');

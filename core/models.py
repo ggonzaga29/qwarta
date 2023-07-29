@@ -10,7 +10,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
-    mobile_number = models.CharField(max_length=11)
+    mobile_number = models.CharField(max_length=12)
 
 
 class Client(User):
@@ -33,6 +33,7 @@ class CreditScore(models.Model):
 
 
 # Created through loan application form
+
 class Loan(models.Model):
     loan_id = models.AutoField(primary_key=True)
     # Loan info
@@ -42,29 +43,30 @@ class Loan(models.Model):
     start_date = models.DateField()  # date when loan is approved
     end_date = models.DateField()  # date when loan is fully paid
     loan_length = models.IntegerField(default=0)  # in months = end_date - start_date
-    issue_date = models.DateField(default=now)  # date when loan is approved
+    issue_date = models.DateField(null=True)  # date when loan is approved
     # Loan status
     status = models.CharField(max_length=50, default='Pending')  # Pending, Approved, Rejected, Paid
     # Foreign keys
-    client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     approved_by = models.ForeignKey(Admin, on_delete=models.CASCADE, default=None, null=True)
 
 
-# Expected Payment
 class Payment(models.Model):
     payment_id = models.AutoField(primary_key=True)
-    due_date = models.DateField()
-    amount = models.IntegerField()
-    status = models.CharField(max_length=50)
-    date_paid = models.DateField()
-    loan_id = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    amount = models.IntegerField(default=0)
+    due_date = models.DateField(default=now)
+    date_paid = models.DateField(null=True)
+    is_late = models.BooleanField(default=False)
+    client_id = models.ForeignKey(Client, null=True, on_delete=models.CASCADE)
+    loan_id = models.ForeignKey(Loan, null=True, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50, default='Pending')  # Pending, Approved, Rejected, Paid
 
 # Other model suggestions:
+
 # - Loan
+
 # - Payment
+
 # - Credit Score
+
 # - Loan Application
-
-
-# seed data
-

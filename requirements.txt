@@ -10,3 +10,4 @@ pathspec==0.11.1
 platformdirs==3.8.1
 sqlparse==0.4.4
 tzdata==2023.3
+Faker~=19.2.0

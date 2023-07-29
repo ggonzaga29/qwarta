@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('authentication.urls', namespace='authentication')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
     path('', include('core.urls', namespace='core')),
+    # path('client/', include('client_dashboard.urls', namespace='client_dashboard')),
 ]

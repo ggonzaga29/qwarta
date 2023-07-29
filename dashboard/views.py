@@ -1,19 +1,30 @@
+from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
-from core.models import User, Client, Payment
+from core.models import User, Client, Payment, Loan, Payment
 
 
 class IndexView(View):
     def get(self, request):
         userCount = Client.objects.count()
         # Sum of payments
-        payments = Payment.objects.all()
-        totalPayments = 0
-        for payment in payments:
-            totalPayments += payment.amount
+        processed_payments = Payment.objects.filter(status="Paid").aggregate(
+            total_payments=Sum("amount")
+        )
+        unprocessed_payments = Payment.objects.filter(status="Pending").aggregate(
+            total_payments=Sum("amount")
+        )
 
+        loans = Loan.objects.all()
 
-        return render(request, "dashboard.html", {"userCount": userCount, "totalPayments": totalPayments})
+        context = {
+            "userCount": userCount,
+            "loans": loans,
+            "totalPayments": "{:,.2f}".format(processed_payments["total_payments"]),
+            "totalUnprocessedPayments": "{:,.2f}".format(unprocessed_payments["total_payments"]),
+        }
+
+        return render(request, "dashboard.html", context)
 
 
 class ProfileView(View):
@@ -85,3 +96,21 @@ class ProfileView(View):
 class LoansView(View):
     def get(self, request):
         return render(request, "loans.html", {})
+
+
+class ViewLoanView(View):
+    def get(self, request, loan_id):
+        try:
+            loan = Loan.objects.get(loan_id=loan_id)
+            payments = Payment.objects.filter(loan_id=loan_id)
+            client = Client.objects.get(user_id=loan.client.user_id)
+
+            context = {
+                "loan": loan,
+                "client": client,
+                "payments": payments,
+            }
+
+            return render(request, "loan/view_loan.html", context)
+        except Loan.DoesNotExist:
+            return redirect("/dashboard/")
