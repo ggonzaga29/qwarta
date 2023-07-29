@@ -1,6 +1,7 @@
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
+from django.utils.timezone import timedelta
 from core.models import User, Client, Payment, Loan, Payment
 from _datetime import datetime
 
@@ -106,10 +107,21 @@ class ViewLoanView(View):
             payments = Payment.objects.filter(loan_id=loan_id)
             client = Client.objects.get(user_id=loan.client.user_id)
 
+            # payments = list(payments).sort(key=lambda r: r.due_date)
+
+            current_outstanding = 0
+            for p in payments:
+                if p.status == "Pending":
+                    print(p.status)
+                    current_outstanding += p.amount
+                    print(current_outstanding)
+
+
             context = {
                 "loan": loan,
                 "client": client,
                 "payments": payments,
+                "current_outstanding": current_outstanding
             }
 
             return render(request, "loan/view_loan.html", context)
@@ -118,8 +130,37 @@ class ViewLoanView(View):
 
 
 class ApproveView(View):
-    def get(self, request):
-        return render(request, "loans.html", {})
+    def get(self, request, loan_id):
+        loan = Loan.objects.get(loan_id=loan_id)
+
+        if loan.status == "Approved":
+            return redirect("/dashboard/loans/" + str(loan_id))
+
+        loan.status = "Approved"
+        loan.issue_date = datetime.today()
+        loan.save()
+
+        current_date = loan.start_date
+        for _ in range(loan.loan_length + 1):
+            amount = (loan.amount_to_pay // loan.loan_length)
+            due_date = current_date + timedelta(days=30)
+            status = "Pending"
+            is_late = False
+
+            payment = Payment(
+                amount=amount,
+                due_date=due_date,
+                status=status,
+                is_late=is_late,
+                client_id=loan.client,
+                loan_id=loan,
+            )
+
+            payment.save()
+            print(payment)
+            current_date += timedelta(days=30)
+
+        return redirect("/dashboard/loans/" + str(loan_id))
 
 
 class ViewApproveView(View):
