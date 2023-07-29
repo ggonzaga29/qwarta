@@ -167,3 +167,5 @@ class PaymentsView(View):
             "payments": payments,
         }
         return render(request, "payments.html", context)
+
+# class EditProfileClient(View):
