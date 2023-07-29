@@ -51,7 +51,7 @@ class LoginView(View):
                 return redirect('/client')
             elif user.user_type == 'admin':
                 request.session['user_type'] = 'admin'
-                return redirect('/admin')
+                return redirect('/dashboard')
         except User.DoesNotExist:
             return render(request, self.template_name, {'title': 'Login', 'error': 'User does not exist'})
 
