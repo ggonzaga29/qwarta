@@ -39,10 +39,11 @@ class Loan(models.Model):
     # Loan info
     product_name = models.CharField(max_length=255, default='Personal Loan')  # What will you use the money for?
     amount = models.IntegerField(default=0)
-    interest_rate = models.DecimalField(max_digits=5, decimal_places=2)  # 0.00
+    interest_rate = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # 0.00
     amount_to_pay = models.IntegerField(default=0)  # amount + interest_rate
-    start_date = models.DateField()  # date when loan is approved
-    end_date = models.DateField()  # date when loan is fully paid
+    # DD-MM-YYYY make dates follow this format
+    start_date = models.DateField()
+    end_date = models.DateField()
     loan_length = models.IntegerField(default=0)  # in months = end_date - start_date
     issue_date = models.DateField(null=True)  # date when loan is approved
     # Loan status
