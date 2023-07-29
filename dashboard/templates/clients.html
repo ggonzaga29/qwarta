@@ -7,90 +7,230 @@
 {% endblock %}
 
 {% block content %}
+    <div id="staticModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+         class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Edit Client
+                    </h3>
+                    <button type="button"
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            id="closeModal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="px-6 py-3 lg:px-4">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" name="client_user_id" id="client_user_id" class="hidden">
+                            <div>
+                                <label for="client_username"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username
+                                </label>
+                                <input type="text" name="client_username" id="client_username"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       placeholder="">
+                            </div>
 
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <caption
-                    class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-               Your Loans
-                <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
-                    A list of all your loans
-                </p>
-            </caption>
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    Product name
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Color
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Category
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Price
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    <span class="sr-only">Edit</span>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 17"
-                </th>
-                <td class="px-6 py-4">
-                    Silver
-                </td>
-                <td class="px-6 py-4">
-                    Laptop
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-                <td class="px-6 py-4 text-right">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Microsoft Surface Pro
-                </th>
-                <td class="px-6 py-4">
-                    White
-                </td>
-                <td class="px-6 py-4">
-                    Laptop PC
-                </td>
-                <td class="px-6 py-4">
-                    $1999
-                </td>
-                <td class="px-6 py-4 text-right">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr class="bg-white dark:bg-gray-800">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Magic Mouse 2
-                </th>
-                <td class="px-6 py-4">
-                    Black
-                </td>
-                <td class="px-6 py-4">
-                    Accessories
-                </td>
-                <td class="px-6 py-4">
-                    $99
-                </td>
-                <td class="px-6 py-4 text-right">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                            <div>
+                                <label for="client_email"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email
+                                </label>
+                                <input type="email" name="client_email" id="client_email"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       placeholder="">
+                            </div>
+                            <div>
+                                <label for="client_first_name"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name
+                                </label>
+                                <input type="text" name="client_first_name" id="client_first_name"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       placeholder="">
+                            </div>
+
+                            <div>
+                                <label for="client_last_name"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name
+                                </label>
+                                <input type="text" name="client_last_name" id="client_last_name"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       placeholder="">
+                            </div>
+
+                            <div>
+                                <label for="client_address"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address
+                                </label>
+                                <input type="text" name="client_address" id="client_address"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       placeholder="">
+                            </div>
+
+                            <div>
+                                <label for="client_mobile_number"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mobile
+                                    Number
+                                </label>
+                                <input type="text" name="client_mobile_number" id="client_mobile_number"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       placeholder="">
+                            </div>
+
+                            <div>
+                                <label for="client_occupation"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Occupation
+                                </label>
+                                <input type="text" name="client_occupation" id="client_occupation"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       placeholder="">
+                            </div>
+
+                            <div>
+                                <label for="client_monthly_income"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Monthly
+                                    Income
+                                </label>
+                                <input type="text" name="client_monthly_income" id="client_monthly_income"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       placeholder="">
+                            </div>
+
+                            <div>
+                                <label for="client_net_worth"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Net Worth
+                                </label>
+                                <input type="text" name="client_net_worth" id="client_net_worth"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <button data-modal-hide="staticModal" type="submit"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Edit
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </div>
+
+
+    <div class="grid grid-cols-3 gap-3">
+        {% for client in clients %}
+            <div
+                    class="block p-6 bg-white border border-gray-200 rounded-lg shadow">
+                <div class="flex justify-between">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ client.last_name }}, {{ client.first_name }}</h5>
+                    <button type="button"
+                            class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                            onclick="showModalWithValues('{{ client.user_id }}', '{{ client.username }}', '{{ client.email }}', '{{ client.first_name }}', '{{ client.last_name }}', `{{ client.address }}`, '{{ client.mobile_number }}', '{{ client.occupation }}', '{{ client.monthly_income }}', '{{ client.net_worth }}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="w-4 h-4">
+                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                            <path d="m15 5 4 4"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="text-sm text-gray-600 flex flex-col gap-1 mb-3">
+                    <span>{{ client.email }}</span>
+                    <span>{{ client.mobile_number }}</span>
+                </div>
+                <p class="text-sm text-gray-700 dark:text-gray-400"><span
+                        class="font-bold">Address: </span>{{ client.address }}</p>
+                <p class="text-sm text-gray-700 dark:text-gray-400"><span
+                        class="font-bold">Occupation: </span>{{ client.occupation }}</p>
+                <p class="text-sm text-gray-700 dark:text-gray-400"><span
+                        class="font-bold">Monthly Income: </span>{{ client.monthly_income }}</p>
+                <p class="text-sm text-gray-700 dark:text-gray-400"><span
+                        class="font-bold">Net Worth: </span>{{ client.net_worth }}</p>
+
+
+                <p class="text-sm text-gray-700 dark:text-gray-400"><span
+                        class="font-bold">Credit Score: </span><span
+                        class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ client.creditScore.score }}</span>
+                </p>
+
+
+                <a href="/dashboard/clients/{{ client.user_id }}/loans/">
+                    <button type="button"
+                            class="mt-2 focus:outline-none text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
+                        View Loans
+                    </button>
+                </a>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <script>
+        // set the modal menu element
+        const $targetEl = document.getElementById('staticModal');
+        const $closeModal = document.getElementById('closeModal');
+        // modal inputs
+        const $clientUserId = document.getElementById('client_user_id');
+        const $clientUsername = document.getElementById('client_username');
+        const $clientEmail = document.getElementById('client_email');
+        const $clientFirstName = document.getElementById('client_first_name');
+        const $clientLastName = document.getElementById('client_last_name');
+        const $clientAddress = document.getElementById('client_address');
+        const $clientMobileNumber = document.getElementById('client_mobile_number');
+        const $clientOccupation = document.getElementById('client_occupation');
+        const $clientMonthlyIncome = document.getElementById('client_monthly_income');
+        const $clientNetWorth = document.getElementById('client_net_worth');
+
+        const inputs = [$clientUserId, $clientUsername, $clientEmail, $clientFirstName, $clientLastName, $clientAddress, $clientMobileNumber, $clientOccupation, $clientMonthlyIncome, $clientNetWorth];
+
+        // options with default values
+        const options = {
+            placement: 'center',
+            backdrop: 'dynamic',
+            backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+            closable: true,
+            onHide: () => {
+                inputs.forEach(input => {
+                    input.value = '';
+                });
+            },
+        };
+
+        const modal = new Modal($targetEl, options);
+        const showModalWithValues = (user_id, username, email, first_name, last_name, address, mobile_number, occupation, monthly_income, net_worth) => {
+            $clientUserId.value = user_id;
+            $clientUsername.value = username;
+            $clientEmail.value = email;
+            $clientFirstName.value = first_name;
+            $clientLastName.value = last_name;
+            $clientAddress.value = address;
+            $clientMobileNumber.value = mobile_number;
+            $clientOccupation.value = occupation;
+            $clientMonthlyIncome.value = monthly_income;
+            $clientNetWorth.value = net_worth;
+
+            modal.show();
+        }
+
+        $closeModal.addEventListener('click', () => {
+
+            modal.hide();
+        });
+    </script>
 
 {% endblock %}
 ```

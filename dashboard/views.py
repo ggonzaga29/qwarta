@@ -2,7 +2,7 @@ from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
 from django.utils.timezone import timedelta
-from core.models import User, Client, Payment, Loan, Payment
+from core.models import User, Client, Payment, Loan, Payment, CreditScore
 from datetime import datetime
 
 
@@ -116,7 +116,6 @@ class ViewLoanView(View):
                     current_outstanding += p.amount
                     print(current_outstanding)
 
-
             context = {
                 "loan": loan,
                 "client": client,
@@ -182,16 +181,47 @@ class ViewApproveView(View):
             return render(request, "loans/view_loan.html", context)
         except Loan.DoesNotExist:
             return redirect("/dashboard?")
-        
 
 
 class ClientsView(View):
     def get(self, request):
         clients = Client.objects.all()
+
+        for client in clients:
+            creditScore = CreditScore.objects.get(client_id=client.user_id)
+            client.creditScore = creditScore
+
         context = {
             "clients": clients,
         }
         return render(request, "clients.html", context)
+
+    def post(self, request):
+        user_id = request.POST["client_user_id"]
+        username = request.POST["client_username"]
+        email = request.POST["client_email"]
+        first_name = request.POST["client_first_name"]
+        last_name = request.POST["client_last_name"]
+        address = request.POST["client_address"]
+        mobile_number = request.POST["client_mobile_number"]
+        occupation = request.POST["client_occupation"]
+        monthly_income = request.POST["client_monthly_income"]
+        net_worth = request.POST["client_net_worth"]
+
+        client = Client.objects.get(user_id=user_id)
+        client.username = username
+        client.email = email
+        client.first_name = first_name
+        client.last_name = last_name
+        client.address = address
+        client.mobile_number = mobile_number
+        client.occupation = occupation
+        client.monthly_income = monthly_income
+        client.net_worth = net_worth
+
+        client.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class PaymentsView(View):
@@ -209,10 +239,29 @@ class PaymentsView(View):
         }
         return render(request, "payments.html", context)
 
+
+class ClientLoanView(View):
+    def get(self, request, user_id):
+        loans = Loan.objects.filter(client_id=user_id)
+        client = Client.objects.get(user_id=user_id)
+        context = {
+            "loans": loans,
+            "client": client,
+        }
+        return render(request, "client_loans.html", context)
+
+
+class DeleteLoanView(View):
+    def get(self, request, loan_id):
+        loan = Loan.objects.get(loan_id=loan_id)
+        loan.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
 class EditProfileClient(View):
     def post(self, request):
         client = Client.objects.get(user_id=request.POST["user_id"])
-        
+
         client.address = request.POST["client_address"]
         client.occupation = request.POST["client_occupation"]
         client.monthly_income = request.POST["client_monthly_income"]
@@ -222,4 +271,4 @@ class EditProfileClient(View):
 
         client.save()
 
-        return redirect("/dashboard")
+        return redirect(request.META.get('HTTP_REFERER'))
