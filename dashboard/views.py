@@ -182,3 +182,31 @@ class ViewApproveView(View):
             return render(request, "loans/view_loan.html", context)
         except Loan.DoesNotExist:
             return redirect("/dashboard?")
+        
+
+
+class ClientsView(View):
+    def get(self, request):
+        clients = Client.objects.all()
+        context = {
+            "clients": clients,
+        }
+        return render(request, "clients.html", context)
+
+
+class PaymentsView(View):
+    def get(self, request):
+        status_param = request.GET.get("status", "Paid")
+        payments = Payment.objects.filter(status=status_param)
+        for payment in payments:
+            client = Client.objects.get(user_id=payment.client_id.user_id)
+            payment.client = client
+            loan = Loan.objects.get(loan_id=payment.loan_id.loan_id)
+            payment.loan = loan
+
+        context = {
+            "payments": payments,
+        }
+        return render(request, "payments.html", context)
+
+# class EditProfileClient(View):
