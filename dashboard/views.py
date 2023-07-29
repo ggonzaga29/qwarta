@@ -1,7 +1,9 @@
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
-from core.models import User, Client, Payment, Loan, Payment
+from django.utils.timezone import timedelta
+from core.models import User, Client, Payment, Loan, Payment, CreditScore
+from datetime import datetime
 
 
 class IndexView(View):
@@ -105,12 +107,251 @@ class ViewLoanView(View):
             payments = Payment.objects.filter(loan_id=loan_id)
             client = Client.objects.get(user_id=loan.client.user_id)
 
+            # payments = list(payments).sort(key=lambda r: r.due_date)
+
+            current_outstanding = 0
+            for p in payments:
+                if p.status == "Pending":
+                    print(p.status)
+                    current_outstanding += p.amount
+                    print(current_outstanding)
+
+            context = {
+                "loan": loan,
+                "client": client,
+                "payments": payments,
+                "current_outstanding": current_outstanding
+            }
+
+            return render(request, "loan/view_loan.html", context)
+        except Loan.DoesNotExist:
+            return redirect("/dashboard/")
+
+
+class RejectView(View):
+    def get(self, request, loan_id):
+        loan = Loan.objects.get(loan_id=loan_id)
+        payments = Payment.objects.filter(loan_id=loan_id)
+
+        if loan.status == "Rejected":
+            return redirect(request.META.get('HTTP_REFERER'))
+
+        for payment in payments:
+            payment.delete()
+
+        loan.status = "Rejected"
+        loan.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class DisapproveView(View):
+    def get(self, request, loan_id):
+        loan = Loan.objects.get(loan_id=loan_id)
+        payments = Payment.objects.filter(loan_id=loan_id)
+
+        if loan.status == "Pending":
+            return redirect(request.META.get('HTTP_REFERER'))
+
+        for payment in payments:
+            payment.delete()
+
+        loan.status = "Pending"
+        loan.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class ApproveView(View):
+    def get(self, request, loan_id):
+        loan = Loan.objects.get(loan_id=loan_id)
+
+        if loan.status == "Approved":
+            return redirect("/dashboard/loans/" + str(loan_id))
+
+        loan.status = "Approved"
+        loan.issue_date = datetime.today()
+        loan.save()
+
+        current_date = loan.start_date
+        for _ in range(loan.loan_length + 1):
+            amount = (loan.amount_to_pay // loan.loan_length)
+            due_date = current_date + timedelta(days=30)
+            status = "Pending"
+            is_late = False
+
+            payment = Payment(
+                amount=amount,
+                due_date=due_date,
+                status=status,
+                is_late=is_late,
+                client_id=loan.client,
+                loan_id=loan,
+            )
+
+            payment.save()
+            current_date += timedelta(days=30)
+
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class CreateLoanView(View):
+    def get(self, request):
+        user_id = request.GET.get("user_id", None)
+        start_date = request.GET.get("start_date", None)
+        end_date = request.GET.get("end_date", None)
+        amount = request.GET.get("amount", None)
+
+        clients = Client.objects.all()
+        loan_length = 0
+
+        context = {
+            "clients": clients,
+        }
+
+        if user_id:
+            context["user_id"] = int(user_id)
+            client = Client.objects.get(user_id=user_id)
+            context["client"] = client
+            credit = CreditScore.objects.get(client_id=user_id)
+            context["credit"] = credit
+
+            if credit.score > 700:
+                context["interest"] = 7
+            elif credit.score > 500:
+                context["interest"] = 10
+            elif credit.score > 400:
+                context["interest"] = 12
+            elif credit.score > 300:
+                context["interest"] = 15
+
+        if start_date:
+            context["start_date"] = start_date
+
+        if end_date:
+            context["end_date"] = end_date
+
+        if start_date and end_date:
+            # dd/mm/YY
+            start_date = datetime.strptime(start_date, "%Y-%m-%d")
+            end_date = datetime.strptime(end_date, "%Y-%m-%d")
+            loan_length = (end_date - start_date).days // 30
+            context["loan_length"] = loan_length
+
+        if amount:
+            context["amount"] = amount
+            context["amount_to_pay"] = int(amount) + (int(amount) * (context["interest"] / 100) * (loan_length / 12))
+
+        return render(request, "loan/create_loan.html", context)
+
+
+class ViewApproveView(View):
+    def get(self, request, loan_id):
+        try:
+            loan = Loan.objects.get(loan_id=loan_id)
+            payments = Payment.objects.filter(loan_id=loan_id)
+            client = Client.objects.get(user_id=loan.client.user_id)
+
             context = {
                 "loan": loan,
                 "client": client,
                 "payments": payments,
             }
 
-            return render(request, "loan/view_loan.html", context)
+            loan.status = 'Approve'
+            loan.issue_date = datetime.now()
+
+            return render(request, "loans/view_loan.html", context)
         except Loan.DoesNotExist:
-            return redirect("/dashboard/")
+            return redirect("/dashboard?")
+
+
+class ClientsView(View):
+    def get(self, request):
+        clients = Client.objects.all()
+
+        for client in clients:
+            creditScore = CreditScore.objects.get(client_id=client.user_id)
+            client.creditScore = creditScore
+
+        context = {
+            "clients": clients,
+        }
+        return render(request, "clients.html", context)
+
+    def post(self, request):
+        user_id = request.POST["client_user_id"]
+        username = request.POST["client_username"]
+        email = request.POST["client_email"]
+        first_name = request.POST["client_first_name"]
+        last_name = request.POST["client_last_name"]
+        address = request.POST["client_address"]
+        mobile_number = request.POST["client_mobile_number"]
+        occupation = request.POST["client_occupation"]
+        monthly_income = request.POST["client_monthly_income"]
+        net_worth = request.POST["client_net_worth"]
+
+        client = Client.objects.get(user_id=user_id)
+        client.username = username
+        client.email = email
+        client.first_name = first_name
+        client.last_name = last_name
+        client.address = address
+        client.mobile_number = mobile_number
+        client.occupation = occupation
+        client.monthly_income = monthly_income
+        client.net_worth = net_worth
+
+        client.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class PaymentsView(View):
+    def get(self, request):
+        status_param = request.GET.get("status", "Paid")
+        payments = Payment.objects.filter(status=status_param)
+        for payment in payments:
+            client = Client.objects.get(user_id=payment.client_id.user_id)
+            payment.client = client
+            loan = Loan.objects.get(loan_id=payment.loan_id.loan_id)
+            payment.loan = loan
+
+        context = {
+            "payments": payments,
+        }
+        return render(request, "payments.html", context)
+
+
+class ClientLoanView(View):
+    def get(self, request, user_id):
+        loans = Loan.objects.filter(client_id=user_id)
+        client = Client.objects.get(user_id=user_id)
+        context = {
+            "loans": loans,
+            "client": client,
+        }
+        return render(request, "client_loans.html", context)
+
+
+class DeleteLoanView(View):
+    def get(self, request, loan_id):
+        loan = Loan.objects.get(loan_id=loan_id)
+        loan.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class EditProfileClient(View):
+    def post(self, request):
+        client = Client.objects.get(user_id=request.POST["user_id"])
+
+        client.address = request.POST["client_address"]
+        client.occupation = request.POST["client_occupation"]
+        client.monthly_income = request.POST["client_monthly_income"]
+        client.net_worth = request.POST["client_net_worth"]
+        client.mobile_number = request.POST["client_mobile_number"]
+        print(client.address)
+
+        client.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))

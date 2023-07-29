@@ -1,0 +1,179 @@
+{% extends 'includes/main.html' %}
+
+{% block title %}View Loan - Qwarta{% endblock %}
+
+{% block heading %}
+    Create Loan
+{% endblock %}
+
+{% block content %}
+    <form action="">
+        <label for="clients" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a
+            client</label>
+        <select id="clients"
+                {#                {% if user_id %}style="pointer-events: none; background-color: #f0f0f0; color: #888; border: 1px solid #ccc;"{% endif %}#}
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option selected disabled>Choose a client</option>
+            {% for client in clients %}
+                <option value="{{ client.user_id }}" {% if user_id == client.user_id %}selected="selected"{% endif %}>
+                    ({{ client.user_id }}) {{ client.first_name }} {{ client.last_name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <blockquote>
+            <p class="text-sm text-gray-500 mt-2">
+                <span class="font-semibold">Note:</span> If you want to create a loan for a client, please select a
+                client
+                first.
+            </p>
+        </blockquote>
+
+        <div>
+            <h2 class="text-xl font-bold mt-5">Loan Details</h2>
+
+            <!-- Client Details -->
+            <section class="text-sm mt-2 flex flex-col gap-2">
+                <div>
+                    <span class="font-semibold">Client: </span>
+                    {% if user_id %}
+                        {{ client.first_name }} {{ client.last_name }}
+
+                    {% else %}
+                        <span class="text-gray-500">No client selected</span>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <span class="font-semibold">Credit Score: </span>
+                    {% if user_id %}
+                        {{ credit.score }}
+                    {% else %}
+                        <span class="text-gray-500">No client selected</span>
+                    {% endif %}
+                </div>
+                <div>
+                    <span class="font-semibold">Interest Rate: </span>
+                    {% if user_id %}
+                        {{ interest }}%
+                    {% else %}
+                        <span class="text-gray-500">No client selected</span>
+                    {% endif %}
+                </div>
+            </section>
+
+            <div class="flex items-center mt-5 ">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                        </svg>
+                    </div>
+                    <input id="start_date" name="start_date" type="date" {% if not user_id %}disabled="true"{% endif %}
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           placeholder="Select date start">
+                </div>
+                <span class="mx-4 text-gray-500">to</span>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                        </svg>
+                    </div>
+                    <input id="end_date" name="end_date" type="date" {% if not user_id %}disabled="true"{% endif %}
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           placeholder="Select date end">
+                </div>
+
+                {% if loan_length %}
+                    <span class="mx-4 text-gray-500">{{ loan_length }} month(s)</span>
+                {% endif %}
+            </div>
+
+            {% if start_date and end_date %}
+                <div class="mt-6 grid grid-cols-3 gap-5 ">
+                    <div>
+                        <label for="amount"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
+                        <input type="number" id="amount" placeholder="1.00" value="{{ amount }}" min="5000"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+
+                    {% if user_id %}
+                        <div>
+                            <label for="interest" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interest
+                                Rate</label>
+                            <input type="text" id="interest" placeholder="10%" value="{{ interest }}"
+                                   class="pointer-events-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+
+                        <div>
+                            <label for="amount_to_pay"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount
+                                to pay</label>
+                            <input type="text" id="amount_to_pay" placeholder="0.00" value="{{ amount_to_pay }}"
+                                   class="pointer-events-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <blockquote>
+                <p class="text-sm text-gray-500 mt-2">
+                    <span class="font-semibold">Formula:</span> Interest = Principal × Rate(Credit Score) × Time
+                </p>
+            </blockquote>
+        </div>
+    </form>
+
+    <script>
+        const clients = document.getElementById('clients');
+        const start_date = document.getElementById('start_date');
+        const end_date = document.getElementById('end_date');
+
+        const amount = document.getElementById('amount');
+        const interest = document.getElementById('interest');
+        const amount_to_pay = document.getElementById('amount_to_pay');
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const user_id = urlParams.get('user_id');
+        const start_date_min = urlParams.get('start_date') ? urlParams.get('start_date') : new Date().toISOString().split('T')[0];
+
+        const oneMonthLater = new Date(start_date_min);
+        oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+
+        start_date.setAttribute('min', start_date_min);
+        end_date.setAttribute('min', new Date(oneMonthLater + 1).toISOString().split('T')[0]);
+
+        start_date.setAttribute('value', urlParams.get('start_date'));
+        end_date.setAttribute('value', urlParams.get('end_date'));
+
+        clients.addEventListener('change', () => {
+            if (clients.value !== 'Choose a client') {
+                window.location.href = `/dashboard/loans/create/?user_id=${clients.value}`;
+            }
+        });
+
+        start_date.addEventListener('change', () => {
+            if (clients.value !== 'Choose a client') {
+                window.location.href = `/dashboard/loans/create/?user_id=${clients.value}&start_date=${start_date.value}`;
+            }
+        });
+
+        end_date.addEventListener('change', () => {
+            if (clients.value !== 'Choose a client') {
+                window.location.href = `/dashboard/loans/create/?user_id=${clients.value}&start_date=${start_date.value}&end_date=${end_date.value}`;
+            }
+        });
+
+        amount.addEventListener('change', () => {
+            if (clients.value !== 'Choose a client') {
+                window.location.href = `/dashboard/loans/create/?user_id=${clients.value}&start_date=${start_date.value}&end_date=${end_date.value}&amount=${amount.value}`;
+            }
+        });
+
+    </script>
+{% endblock %}
+

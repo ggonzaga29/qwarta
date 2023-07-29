@@ -39,8 +39,33 @@
                     <p class="text-sm">{{ loan.interest_rate }}%</p>
                 </div>
                 <div class="mt-2">
+                    <b>Amount</b>
+                    <p class="text-sm">Php {{ loan.amount }}.00</p>
+                </div>
+                <div class="mt-2">
+                    <b>Amount to Pay</b>
+                    <p class="text-sm">Php {{ loan.amount_to_pay }}.00</p>
+                </div>
+                <div class="mt-2 mb-2">
                     <b>Date of Approval</b>
                     <p class="text-sm">{{ loan.issue_date }}</p>
+                </div>
+                <div class="pt-2 flex gap-2">
+                    {% if loan.status == "Approved" %}
+                         <a href="/dashboard/loans/disapprove/{{ loan.loan_id }}"
+                           class="focus:outline-none text-black bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 my-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                            Disapprove
+                        </a>
+                        <a href="/dashboard/loans/reject/{{ loan.loan_id }}"
+                           class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 my-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                            Reject
+                        </a>
+                    {% elif loan.status == "Pending" %}
+                        <a href="/dashboard/loans/approve/{{ loan.loan_id }}"
+                           class=" focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 my-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Approve
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -53,50 +78,71 @@
             <div class="p-6">
                 <div class="">
                     <b>Total Borrowed</b>
-                    <p class="text-sm">0.00</p>
+                    <p class="text-sm">{{ loan.amount }}</p>
                 </div>
                 <div class="mt-2">
                     <b>Total After Interest</b>
-                    <p class="text-sm">0.00</p>
+                    <p class="text-sm">{{ loan.amount_to_pay }}</p>
                 </div>
                 <div class="mt-2">
                     <b>Current Outstanding</b>
-                    <p class="text-sm">0.00</p>
+                    <p class="text-sm">{{ current_outstanding }}</p>
                 </div>
             </div>
         </div>
-
-        <div class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
-            <div class="bg-yellow-400 w-full px-6 py-3 rounded-lg">
-                <div>
-                    <h5 class="text-2xl font-bold tracking-tight  text-black">{{ client.last_name }}, {{ client.first_name }}
-                    </h5>
-                    <p class="text-sm  text-black">{{ client.email }}</p>
+        <form class="flex-1 block" method="post" action="/dashboard/clients/edit/">
+            {% csrf_token %}
+            <input name="user_id" value="{{ client.user_id }}" class="hidden">
+            <div class="w-full block  bg-white border border-gray-200 rounded-lg shadow">
+                <div class="bg-yellow-400 w-full px-6 py-3 rounded-lg flex justify-between items-center">
+                    <div>
+                        <h5 class="text-2xl font-bold tracking-tight  text-black">{{ client.last_name }}, {{ client.first_name }}
+                        </h5>
+                        <p class="text-sm  text-black">{{ client.email }}</p>
+                    </div>
+                    <button type="button" class="text-white font-semibold btn">Edit</button>
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-col gap-2">
+                        <b>Address</b>
+                        <p class="text-sm field">{{ client.address }}</p>
+                        <input type="text" name="client_address" value="{{ client.address }}"
+                               class="hidden input-field block w-full p-4 text-[12px] text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <div class="mt-2 flex flex-col gap-2">
+                        <b>Occupation</b>
+                        <p class="text-sm field">{{ client.occupation }}</p>
+                        <input type="text" name="client_occupation" value="{{ client.occupation }}"
+                               class="hidden input-field block w-full p-4  text-[12px]  text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <div class="mt-2 flex flex-col gap-2">
+                        <b>Monthly Income</b>
+                        <p class="text-sm field">{{ client.monthly_income }}</p>
+                        <input type="text" name="client_monthly_income" value="{{ client.monthly_income }}"
+                               class="hidden input-field block w-full p-4 text-[12px]  text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <div class="mt-2 flex flex-col gap-2">
+                        <b>Net Worth</b>
+                        <p class="text-sm field">{{ client.net_worth }}</p>
+                        <input type="text" name="client_net_worth" value="{{ client.net_worth }}"
+                               class="hidden input-field block w-full p-4 text-[12px]  text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <div class="mt-2 flex flex-col gap-2">
+                        <b>Contact Number</b>
+                        <p class="text-sm field">{{ client.mobile_number }}</p>
+                        <input type="text" name="client_mobile_number" value="{{ client.mobile_number }}"
+                               class="hidden input-field block w-full p-4 text-[12px] text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <br>
+                    <div class="flex justify-end">
+                        <button type="submit"
+                                class="text-white font-semibold bg-gray-500 rounded-lg px-4 py-2 hover:bg-gray-700 hidden input-field">
+                            Save
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="p-6">
-                <div class="">
-                    <b>Address</b>
-                    <p class="text-sm">{{ client.address }}</p>
-                </div>
-                <div class="mt-2">
-                    <b>Occupation</b>
-                    <p class="text-sm">{{ client.occupation }}</p>
-                </div>
-                <div class="mt-2">
-                    <b>Monthly Income</b>
-                    <p class="text-sm">{{ client.monthly_income }}</p>
-                </div>
-                <div class="mt-2">
-                    <b>Net Worth</b>
-                    <p class="text-sm">{{ client.net_worth }}</p>
-                </div>
-                <div class="mt-2">
-                    <b>Contact Number</b>
-                    <p class="text-sm">{{ client.mobile_number }}</p>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 
     <section class="mt-6">
@@ -122,9 +168,6 @@
                     <th scope="col" class="px-6 py-3">
                         Amount
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                        <span class="sr-only">Edit</span>
-                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -146,13 +189,28 @@
                         <td class="px-6 py-4">
                             Php {{ payment.amount }}.00
                         </td>
-                        <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-red-600 dark:text-blue-500 hover:underline">Approve</a>
-                        </td>
+
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
     </section>
+
+    <script>
+        const p = document.querySelectorAll(".field")
+        const input = document.querySelectorAll(".input-field")
+        const btn = document.querySelector(".btn")
+
+        btn.addEventListener("click", () => {
+            p.forEach(el => {
+                el.classList.toggle("hidden")
+            })
+
+            input.forEach(el => {
+                el.classList.toggle("hidden")
+            })
+        })
+    </script>
 {% endblock %}
+
