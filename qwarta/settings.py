@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'core.middleware.admin_middleware',
+    'core.middleware.user_type_middleware',
 ]
 
 ROOT_URLCONF = 'qwarta.urls'
