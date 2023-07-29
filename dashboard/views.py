@@ -1,3 +1,5 @@
+import math
+
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
@@ -196,11 +198,40 @@ class ApproveView(View):
 
 
 class CreateLoanView(View):
+
+    def post(self, request):
+        user_id = request.POST["user_id"]
+        start_date = request.POST["start_date"]
+        end_date = request.POST["end_date"]
+        product_name = request.POST["product_name"]
+        loan_length = request.POST["loan_length"]
+        amount = request.POST["amount"]
+        amount_to_pay = request.POST["amount_to_pay"]
+        interest = request.POST["interest"]
+
+        loan = Loan(
+            client_id=user_id,
+            product_name=product_name,
+            start_date=start_date,
+            end_date=end_date,
+            amount=amount,
+            amount_to_pay=float(amount_to_pay),
+            loan_length=loan_length,
+            interest_rate=interest,
+            status="Pending",
+        )
+
+        loan.save()
+        print(loan)
+
+        return render(request, "loan/create_loan.html", {})
+
     def get(self, request):
         user_id = request.GET.get("user_id", None)
         start_date = request.GET.get("start_date", None)
         end_date = request.GET.get("end_date", None)
         amount = request.GET.get("amount", None)
+        product_name = request.GET.get("product_name", None)
 
         clients = Client.objects.all()
         loan_length = 0
@@ -224,6 +255,9 @@ class CreateLoanView(View):
                 context["interest"] = 12
             elif credit.score > 300:
                 context["interest"] = 15
+
+        if product_name:
+            context["product_name"] = product_name
 
         if start_date:
             context["start_date"] = start_date
