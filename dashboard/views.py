@@ -20,8 +20,8 @@ class IndexView(View):
         context = {
             "userCount": userCount,
             "loans": loans,
-            "totalPayments": "{:,.2f}".format(processed_payments["total_payments"]),
-            "totalUnprocessedPayments": "{:,.2f}".format(unprocessed_payments["total_payments"]),
+            "totalPayments": processed_payments["total_payments"],
+            "totalUnprocessedPayments": unprocessed_payments["total_payments"]
         }
 
         return render(request, "dashboard.html", context)

@@ -1,11 +1,6 @@
-from . import views
-from django.urls import path
+from django.shortcuts import render, redirect
+from django.views import View
 
-app_name = "authentication"
-
-urlpatterns = [
-    path('login/', views.LoginView.as_view(), name='login'),
-    path('register/', views.RegisterView.as_view(), name='register'),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
-    path('seed/', views.SeedView.as_view(), name='seed'),
-]
+class IndexView(View):
+    def get(self, request):
+        return render(request, "client_dashboard.html", {})
