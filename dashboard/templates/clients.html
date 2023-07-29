@@ -152,28 +152,38 @@
                     <span>{{ client.email }}</span>
                     <span>{{ client.mobile_number }}</span>
                 </div>
-                <p class="text-sm text-gray-700 dark:text-gray-400"><span
-                        class="font-bold">Address: </span>{{ client.address }}</p>
-                <p class="text-sm text-gray-700 dark:text-gray-400"><span
-                        class="font-bold">Occupation: </span>{{ client.occupation }}</p>
-                <p class="text-sm text-gray-700 dark:text-gray-400"><span
-                        class="font-bold">Monthly Income: </span>{{ client.monthly_income }}</p>
-                <p class="text-sm text-gray-700 dark:text-gray-400"><span
-                        class="font-bold">Net Worth: </span>{{ client.net_worth }}</p>
+                <div class="space-y-2">
+                    <p class="text-sm text-gray-700 dark:text-gray-400"><span
+                            class="font-bold">Address: </span>{{ client.address }}</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-400"><span
+                            class="font-bold">Occupation: </span>{{ client.occupation }}</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-400"><span
+                            class="font-bold">Monthly Income: </span>{{ client.monthly_income }}</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-400"><span
+                            class="font-bold">Net Worth: </span>{{ client.net_worth }}</p>
 
 
-                <p class="text-sm text-gray-700 dark:text-gray-400"><span
-                        class="font-bold">Credit Score: </span><span
-                        class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ client.creditScore.score }}</span>
-                </p>
+                    <p class="text-sm text-gray-700 dark:text-gray-400"><span
+                            class="font-bold">Credit Score: </span><span
+                            class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ client.creditScore.score }}</span>
+                    </p>
+                </div>
 
+                <div class="mt-4">
+                    <a href="/dashboard/clients/{{ client.user_id }}/loans/">
+                        <button type="button"
+                                class="focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
+                            View Loans
+                        </button>
+                    </a>
+                    <a href="/dashboard/loans/create?user_id={{ client.user_id }}">
+                        <button type="button"
+                                class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Create a loan
+                        </button>
+                    </a>
+                </div>
 
-                <a href="/dashboard/clients/{{ client.user_id }}/loans/">
-                    <button type="button"
-                            class="mt-2 focus:outline-none text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
-                        View Loans
-                    </button>
-                </a>
             </div>
         {% endfor %}
 
