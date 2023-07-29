@@ -2,6 +2,7 @@ from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
 from core.models import User, Client, Payment, Loan, Payment
+import datetime
 
 
 class IndexView(View):
@@ -114,3 +115,31 @@ class ViewLoanView(View):
             return render(request, "loan/view_loan.html", context)
         except Loan.DoesNotExist:
             return redirect("/dashboard/")
+
+
+class ApproveView(View):
+    def get(self, request):
+        return render(request, "loans.html", {})
+
+
+class ViewApproveView(View):
+    def get(self, request, loan_id):
+        try:
+            loan = Loan.objects.get(loan_id=loan_id)
+            payments = Payment.objects.filter(loan_id=loan_id)
+            client = Client.objects.get(user_id=loan.client.user_id)
+
+            context = {
+                "loan": loan,
+                "client": client,
+                "payments": payments,
+            }
+
+            loan.status = "Approved"
+            loan.start_date = datetime.now().date()
+            loan.end_date =
+
+            return render(request, "loans/view_loan.html", context)
+        except loan.issue_datet:
+            return redirect("/dashboard?")
+
