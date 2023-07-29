@@ -18,9 +18,9 @@
             {#        </ul>#}
 
             <div class="flex gap-5">
-                <div
-                        class="flex flex-1 justify-between items-center p-6 bg-white border border-gray-200 rounded-lg shadow cursor-pointer hover:bg-gray-100 z-10">
-                    <h5 onclick="window.location.href='/dashboard/loans/{{ loan.loan_id }}'" class="font-bold flex-1">
+                <div onclick="window.location.href='/dashboard/loans/{{ loan.loan_id }}'"
+                     class="flex flex-1 justify-between items-center p-6 bg-white border border-gray-200 rounded-lg shadow cursor-pointer hover:bg-gray-100 z-10">
+                    <h5 class="font-bold flex-1">
                         {{ loan.product_name }}
                     </h5>
                     <div class="flex items-center gap-2">
