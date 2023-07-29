@@ -67,34 +67,45 @@
         </div>
 
         <div class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
-            <div class="bg-yellow-400 w-full px-6 py-3 rounded-lg">
+            <div class="bg-yellow-400 w-full px-6 py-3 rounded-lg flex justify-between items-center">
                 <div>
                     <h5 class="text-2xl font-bold tracking-tight  text-black">{{ client.last_name }}, {{ client.first_name }}
                     </h5>
-                    <p class="text-sm  text-black">{{ client.email }}</p>
+                    <p class="text-sm  text-black">{{ client.email }}</p>           
                 </div>
+                <button type="button" class="text-white font-semibold btn" >Edit</button>
             </div>
             <div class="p-6">
-                <div class="">
+                <div class="flex flex-col gap-2">
                     <b>Address</b>
-                    <p class="text-sm">{{ client.address }}</p>
+                    <p class="text-sm field" >{{ client.address }}</p>
+                    <input type="text" value="{{client.address}}" class="hidden input-field border bg-gray-200" >
                 </div>
-                <div class="mt-2">
+                <div class="mt-2 flex flex-col gap-2">
                     <b>Occupation</b>
-                    <p class="text-sm">{{ client.occupation }}</p>
+                    <p class="text-sm field">{{ client.occupation }}</p>
+                    <input type="text" value="{{client.occupation}}" class="hidden input-field border bg-gray-200" >
                 </div>
-                <div class="mt-2">
+                <div class="mt-2 flex flex-col gap-2">
                     <b>Monthly Income</b>
-                    <p class="text-sm">{{ client.monthly_income }}</p>
+                    <p class="text-sm field">{{ client.monthly_income }}</p>
+                    <input type="text" value="{{client.monthly_income}}" class="hidden input-field border bg-gray-200" >
                 </div>
-                <div class="mt-2">
+                <div class="mt-2 flex flex-col gap-2">
                     <b>Net Worth</b>
-                    <p class="text-sm">{{ client.net_worth }}</p>
+                    <p class="text-sm field">{{ client.net_worth }}</p>
+                    <input type="text" value="{{client.net_worth}}" class="hidden input-field border bg-gray-200" >
                 </div>
-                <div class="mt-2">
+                <div class="mt-2 flex flex-col gap-2">
                     <b>Contact Number</b>
-                    <p class="text-sm">{{ client.mobile_number }}</p>
+                    <p class="text-sm field">{{ client.mobile_number }}</p>
+                    <input type="text" value="{{client.mobile_number}}" class="hidden input-field border bg-gray-200" >
                 </div>
+                <br>
+                <div class="flex justify-end">
+                    <button type="button" class="text-white font-semibold bg-gray-500 rounded-lg px-4 py-2 hidden input-field">Save</button>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -146,17 +157,30 @@
                         <td class="px-6 py-4">
                             Php {{ payment.amount }}.00
                         </td>
-<<<<<<< HEAD
-=======
                         <td class="px-6 py-4 text-right">
                             <a href="#" class="font-medium text-red-600 dark:text-blue-500 hover:underline">Approve</a>
                         </td>
->>>>>>> f3b55a572368e1895a13d598c6fd1c65c9e93293
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
     </section>
+
+    <script>
+        const p = document.querySelectorAll(".field")
+        const input = document.querySelectorAll(".input-field")
+        const btn = document.querySelector(".btn")
+
+        btn.addEventListener("click", () => {
+            p.forEach(el => {
+                el.classList.toggle("hidden")
+            })
+
+            input.forEach(el => {
+                el.classList.toggle("hidden")
+            })
+        })
+    </script>
 {% endblock %}
 

@@ -138,4 +138,6 @@ class ViewApproveView(View):
             return render(request, "loans/view_loan.html", context)
         except Loan.DoesNotExist:
             return redirect("/dashboard?")
+        
+
 
