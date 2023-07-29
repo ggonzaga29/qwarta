@@ -128,6 +128,40 @@ class ViewLoanView(View):
             return redirect("/dashboard/")
 
 
+class RejectView(View):
+    def get(self, request, loan_id):
+        loan = Loan.objects.get(loan_id=loan_id)
+        payments = Payment.objects.filter(loan_id=loan_id)
+
+        if loan.status == "Rejected":
+            return redirect(request.META.get('HTTP_REFERER'))
+
+        for payment in payments:
+            payment.delete()
+
+        loan.status = "Rejected"
+        loan.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class DisapproveView(View):
+    def get(self, request, loan_id):
+        loan = Loan.objects.get(loan_id=loan_id)
+        payments = Payment.objects.filter(loan_id=loan_id)
+
+        if loan.status == "Pending":
+            return redirect(request.META.get('HTTP_REFERER'))
+
+        for payment in payments:
+            payment.delete()
+
+        loan.status = "Pending"
+        loan.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
 class ApproveView(View):
     def get(self, request, loan_id):
         loan = Loan.objects.get(loan_id=loan_id)
@@ -156,10 +190,59 @@ class ApproveView(View):
             )
 
             payment.save()
-            print(payment)
             current_date += timedelta(days=30)
 
-        return redirect("/dashboard/loans/" + str(loan_id))
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class CreateLoanView(View):
+    def get(self, request):
+        user_id = request.GET.get("user_id", None)
+        start_date = request.GET.get("start_date", None)
+        end_date = request.GET.get("end_date", None)
+        amount = request.GET.get("amount", None)
+
+        clients = Client.objects.all()
+        loan_length = 0
+
+        context = {
+            "clients": clients,
+        }
+
+        if user_id:
+            context["user_id"] = int(user_id)
+            client = Client.objects.get(user_id=user_id)
+            context["client"] = client
+            credit = CreditScore.objects.get(client_id=user_id)
+            context["credit"] = credit
+
+            if credit.score > 700:
+                context["interest"] = 7
+            elif credit.score > 500:
+                context["interest"] = 10
+            elif credit.score > 400:
+                context["interest"] = 12
+            elif credit.score > 300:
+                context["interest"] = 15
+
+        if start_date:
+            context["start_date"] = start_date
+
+        if end_date:
+            context["end_date"] = end_date
+
+        if start_date and end_date:
+            # dd/mm/YY
+            start_date = datetime.strptime(start_date, "%Y-%m-%d")
+            end_date = datetime.strptime(end_date, "%Y-%m-%d")
+            loan_length = (end_date - start_date).days // 30
+            context["loan_length"] = loan_length
+
+        if amount:
+            context["amount"] = amount
+            context["amount_to_pay"] = int(amount) + (int(amount) * (context["interest"] / 100) * (loan_length / 12))
+
+        return render(request, "loan/create_loan.html", context)
 
 
 class ViewApproveView(View):
