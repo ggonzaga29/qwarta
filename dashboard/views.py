@@ -95,7 +95,7 @@ class ProfileView(View):
 
 class LoansView(View):
     def get(self, request):
-        return render(request, "loans.html", {})
+        return render(request, "clients.html", {})
 
 
 class ViewLoanView(View):

@@ -3,75 +3,76 @@
 {% block title %}View Loan - Qwarta{% endblock %}
 
 {% block heading %}
-View Loan
+    View Loan
 {% endblock %}
 
 {% block content %}
-<div class="max-w-full sm:mx-auto flex justify-start gap-5">
+    <div class="max-w-full sm:mx-auto flex justify-start gap-5">
 
-    <div class="flex-1 block bg-white rounded-lg shadow">
-        <div class="bg-blue-600 w-full px-6 py-3 rounded-lg flex justify-between items-center" >
-            <div>
-                <h5 class="text-2xl font-bold tracking-tight  text-white">{{ loan.product_name }}</h5>
-                <p class="text-sm  text-white">Loan Summary</p>
+        <div class="flex-1 block bg-white rounded-lg shadow">
+            <div class="bg-blue-600 w-full px-6 py-3 rounded-lg flex justify-between items-center">
+                <div>
+                    <h5 class="text-2xl font-bold tracking-tight  text-white">{{ loan.product_name }}</h5>
+                    <p class="text-sm  text-white">Loan Summary</p>
+                </div>
+                <!-- <button type="button" class="text-white font-semibold">Edit</button> -->
             </div>
-            <!-- <button type="button" class="text-white font-semibold">Edit</button> -->
+            <div class="p-6">
+                <div class="">
+                    <b>Start Date</b>
+                    <p class="text-sm">{{ loan.start_date }}</p>
+                </div>
+                <div class="mt-2">
+                    <b>End Date</b>
+                    <p class="text-sm">{{ loan.end_date }}</p>
+                </div>
+                <div class="mt-2">
+                    <b>Status</b>
+                    <p class="text-sm">{{ loan.status }}</p>
+                </div>
+                <div class="mt-2">
+                    <b>Terms</b>
+                    <p class="text-sm">{{ loan.loan_length }} Months</p>
+                </div>
+                <div class="mt-2">
+                    <b>Interest Rate</b>
+                    <p class="text-sm">{{ loan.interest_rate }}%</p>
+                </div>
+                <div class="mt-2">
+                    <b>Date of Approval</b>
+                    <p class="text-sm">{{ loan.issue_date }}</p>
+                </div>
+            </div>
         </div>
-        <div class="p-6">
-            <div class="">
-                <b>Start Date</b>
-                <p class="text-sm">{{ loan.start_date }}</p>
-            </div>
-            <div class="mt-2">
-                <b>End Date</b>
-                <p class="text-sm">{{ loan.end_date }}</p>
-            </div>
-            <div class="mt-2">
-                <b>Status</b>
-                <p class="text-sm">{{ loan.status }}</p>
-            </div>
-            <div class="mt-2">
-                <b>Terms</b>
-                <p class="text-sm">{{ loan.loan_length }} Months</p>
-            </div>
-            <div class="mt-2">
-                <b>Interest Rate</b>
-                <p class="text-sm">{{ loan.interest_rate }}%</p>
-            </div>
-            <div class="mt-2">
-                <b>Date of Approval</b>
-                <p class="text-sm">{{ loan.issue_date }}</p>
-            </div>
-        </div>
-    </div>
 
-    <div class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
-        <div class="bg-green-600 w-full px-6 py-3 rounded-lg">
-            <h5 class="text-2xl font-bold tracking-tight  text-white">Balance</h5>
-            <p class="text-sm  text-white">Balance Summary</p>
+        <div class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
+            <div class="bg-green-600 w-full px-6 py-3 rounded-lg">
+                <h5 class="text-2xl font-bold tracking-tight  text-white">Balance</h5>
+                <p class="text-sm  text-white">Balance Summary</p>
+            </div>
+            <div class="p-6">
+                <div class="">
+                    <b>Total Borrowed</b>
+                    <p class="text-sm">0.00</p>
+                </div>
+                <div class="mt-2">
+                    <b>Total After Interest</b>
+                    <p class="text-sm">0.00</p>
+                </div>
+                <div class="mt-2">
+                    <b>Current Outstanding</b>
+                    <p class="text-sm">0.00</p>
+                </div>
+            </div>
         </div>
-        <div class="p-6">
-            <div class="">
-                <b>Total Borrowed</b>
-                <p class="text-sm">0.00</p>
-            </div>
-            <div class="mt-2">
-                <b>Total After Interest</b>
-                <p class="text-sm">0.00</p>
-            </div>
-            <div class="mt-2">
-                <b>Current Outstanding</b>
-                <p class="text-sm">0.00</p>
-            </div>
-        </div>
-    </div>
 
-    <div class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
-        <div class="bg-yellow-400 w-full px-6 py-3 rounded-lg flex justify-between items-center">
-            <div>
-                <h5 class="text-2xl font-bold tracking-tight  text-black">{{ client.last_name }}, {{ client.first_name }}
-                </h5>
-                <p class="text-sm  text-black">{{ client.email }}</p>
+        <div class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
+            <div class="bg-yellow-400 w-full px-6 py-3 rounded-lg">
+                <div>
+                    <h5 class="text-2xl font-bold tracking-tight  text-black">{{ client.last_name }}, {{ client.first_name }}
+                    </h5>
+                    <p class="text-sm  text-black">{{ client.email }}</p>
+                </div>
             </div>
             <div class="p-6">
                 <div class="">
@@ -96,17 +97,15 @@ View Loan
                 </div>
             </div>
         </div>
+    </div>
 
-
-</div>
-
-<section class="mt-6">
-    <h2 class="text-2xl font-bold">Payments</h2>
-    <hr>
-    <div class="relative max-h-[600px] overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg mt-5">
-        <table class="relative w-full text-sm text-left text-gray-500 dark:text-gray-400 table">
-            <thead
-                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 w-full top-0 left-0 sticky">
+    <section class="mt-6">
+        <h2 class="text-2xl font-bold">Payments</h2>
+        <hr>
+        <div class="relative max-h-[600px] overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg mt-5">
+            <table class="relative w-full text-sm text-left text-gray-500 dark:text-gray-400 table">
+                <thead
+                        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 w-full top-0 left-0 sticky">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         Due Date
@@ -127,34 +126,33 @@ View Loan
                         <span class="sr-only">Edit</span>
                     </th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
 
                 {% for payment in payments %}
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <td class="px-6 py-4">
-                        {{ payment.due_date }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ payment.date_paid }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ payment.status }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ payment.is_late }}
-                    </td>
-                    <td class="px-6 py-4">
-                        Php {{ payment.amount }}.00
-                    </td>
-                    <td class="px-6 py-4 text-right">
-                        <a href="#" class="font-medium text-red-600 dark:text-blue-500 hover:underline">Approve</a>
-                    </td>
-                </tr>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td class="px-6 py-4">
+                            {{ payment.due_date }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ payment.date_paid }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ payment.status }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ payment.is_late }}
+                        </td>
+                        <td class="px-6 py-4">
+                            Php {{ payment.amount }}.00
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <a href="#" class="font-medium text-red-600 dark:text-blue-500 hover:underline">Approve</a>
+                        </td>
+                    </tr>
                 {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</section>
+                </tbody>
+            </table>
+        </div>
+    </section>
 {% endblock %}
-```
