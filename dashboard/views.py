@@ -137,7 +137,6 @@ class ViewApproveView(View):
 
             loan.status = "Approved"
             loan.start_date = datetime.now().date()
-            loan.end_date =
 
             return render(request, "loans/view_loan.html", context)
         except loan.issue_datet:
