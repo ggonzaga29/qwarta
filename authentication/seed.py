@@ -158,7 +158,7 @@ def generate_payments():
     loans = Loan.objects.filter(status='Approved')
     for loan in loans:
         current_date = loan.start_date
-        for i in range(loan.loan_length + 1):
+        for i   in range(loan.loan_length + 1):
             # due date is 30 days after start date
             # multiplied by interest rate
             amount = (loan.amount // loan.loan_length) * (1 + loan.interest_rate)

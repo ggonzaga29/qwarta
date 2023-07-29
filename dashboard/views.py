@@ -1,10 +1,8 @@
-import random
-
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
 from core.models import User, Client, Payment, Loan, Payment
-import datetime
+from _datetime import datetime
 
 
 class IndexView(View):
@@ -137,11 +135,13 @@ class ViewApproveView(View):
                 "payments": payments,
             }
 
+            loan.status = 'Approve'
+            loan.issue_date = datetime.now()
+
             return render(request, "loans/view_loan.html", context)
         except Loan.DoesNotExist:
             return redirect("/dashboard?")
         
-# class EditProfileClient(View):
 
 
 class ClientsView(View):
