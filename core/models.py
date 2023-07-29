@@ -11,7 +11,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
     mobile_number = models.CharField(max_length=12)
-
+    user_type = models.CharField(max_length=50, default='client')  # client, admin
 
 class Client(User):
     occupation = models.CharField(default='Unemployed', max_length=50)

@@ -5,6 +5,7 @@ from django.db.models import Q
 from core.models import User, Client, Admin, CreditScore, Loan, Payment
 from .seed import generate_clients, generate_admins, generate_credit_scores, generate_loans, generate_payments
 
+
 class SeedView(View):
     def get(self, request):
         generate_clients(num_clients=5)
@@ -42,7 +43,15 @@ class LoginView(View):
             request.session['mobile_number'] = user.mobile_number
             request.session['address'] = user.address
 
-            return redirect('/dashboard')
+            print(user is Client)
+            print(user is Admin)
+
+            if user.user_type == 'client':
+                request.session['user_type'] = 'client'
+                return redirect('/client')
+            elif user.user_type == 'admin':
+                request.session['user_type'] = 'admin'
+                return redirect('/admin')
         except User.DoesNotExist:
             return render(request, self.template_name, {'title': 'Login', 'error': 'User does not exist'})
 
