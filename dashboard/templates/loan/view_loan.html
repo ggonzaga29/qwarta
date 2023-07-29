@@ -62,15 +62,15 @@
             <div class="p-6">
                 <div class="">
                     <b>Total Borrowed</b>
-                    <p class="text-sm">0.00</p>
+                    <p class="text-sm">{{ loan.amount }}</p>
                 </div>
                 <div class="mt-2">
                     <b>Total After Interest</b>
-                    <p class="text-sm">0.00</p>
+                    <p class="text-sm">{{ loan.amount_to_pay }}</p>
                 </div>
                 <div class="mt-2">
                     <b>Current Outstanding</b>
-                    <p class="text-sm">0.00</p>
+                    <p class="text-sm">{{ current_outstanding }}</p>
                 </div>
             </div>
         </div>
