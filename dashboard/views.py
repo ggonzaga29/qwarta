@@ -2,7 +2,7 @@ from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
 from core.models import User, Client, Payment, Loan, Payment
-from _datetime import datetime
+from datetime import datetime
 
 
 class IndexView(View):
@@ -168,4 +168,17 @@ class PaymentsView(View):
         }
         return render(request, "payments.html", context)
 
-# class EditProfileClient(View):
+class EditProfileClient(View):
+    def post(self, request):
+        client = Client.objects.get(user_id=request.POST["user_id"])
+        
+        client.address = request.POST["client_address"]
+        client.occupation = request.POST["client_occupation"]
+        client.monthly_income = request.POST["client_monthly_income"]
+        client.net_worth = request.POST["client_net_worth"]
+        client.mobile_number = request.POST["client_mobile_number"]
+        print(client.address)
+
+        client.save()
+
+        return redirect("/dashboard")

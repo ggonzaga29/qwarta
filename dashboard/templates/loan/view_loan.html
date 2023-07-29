@@ -74,8 +74,9 @@
                 </div>
             </div>
         </div>
-        <form class="flex-1"  method="post">
+        <form class="flex-1 block"  method="post" action="/dashboard/clients/edit/">
             {% csrf_token %}
+            <input name="user_id" value="{{ client.user_id }}" class="hidden">
             <div class="w-full block  bg-white border border-gray-200 rounded-lg shadow">
                 <div class="bg-yellow-400 w-full px-6 py-3 rounded-lg flex justify-between items-center">
                     <div>
@@ -113,7 +114,7 @@
                     </div>
                     <br>
                     <div class="flex justify-end">
-                        <button type="button" class="text-white font-semibold bg-gray-500 rounded-lg px-4 py-2 hover:bg-gray-700 hidden input-field" type="submit">Save</button>
+                        <button type="submit" class="text-white font-semibold bg-gray-500 rounded-lg px-4 py-2 hover:bg-gray-700 hidden input-field">Save</button>
                     </div>          
                 </div>
             </div>
