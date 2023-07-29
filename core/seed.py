@@ -60,10 +60,16 @@ def create_sample_data():
 
     # Create 10 sample Loans for the first 10 Clients
     for i, client in enumerate(clients[:10], start=1):
+        amount = random.randint(1000, 5000)
+        interest_rate = random.uniform(1, 10)
+
         Loan.objects.create(
             product_name=f'Loan for {client.first_name} {client.last_name}',
-            amount=random.randint(1000, 5000),
-            interest_rate=random.uniform(1, 10),
+            amount=amount,
+            interest_rate=interest_rate,
+            # per annum based on amount * interest_rate
+            # interest rate is in percentage eg 4.5%
+            amount_to_pay=amount + (amount * interest_rate),
             start_date=now().date(),
             end_date=(now() + timedelta(days=random.randint(30, 365))).date(),
             loan_length=0,

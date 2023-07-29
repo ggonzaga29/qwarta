@@ -119,12 +119,17 @@ def generate_loans(num_loans):
         start_date = fake.date_between(start_date='-1y', end_date='today')
         end_date = start_date + timedelta(days=random.randint(30, 365) * 12)  # Loan length between 1 and 12 months
         status = random.choice(['Pending', 'Approved', 'Rejected'])
+        loan_length = (end_date - start_date).days // 30
+        amount = random.randint(1000, 50000)
+        interest_rate = random.uniform(5.0, 15.0)
+
         loan = Loan(
             product_name=random.choice(loan_names),
-            amount=random.randint(1000, 50000),
-            interest_rate=random.uniform(0.5, 5.0),
+            amount=amount,
+            interest_rate=interest_rate,
             start_date=start_date,
             end_date=end_date,
+            amount_to_pay=amount + (amount * (interest_rate / 100) * (loan_length / 12)),
             # loan length in months
             loan_length=(end_date - start_date).days // 30,
             status=status,
