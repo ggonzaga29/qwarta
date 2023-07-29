@@ -9,11 +9,13 @@
 {% block content %}
     <div class="max-w-full sm:mx-auto flex justify-start gap-5">
 
-        <div
-                class="flex-1 block bg-white rounded-lg shadow">
-            <div class="bg-blue-600 w-full px-6 py-3 rounded-lg">
-                <h5 class="text-2xl font-bold tracking-tight  text-white">{{ loan.product_name }}</h5>
-                <p class="text-sm  text-white">Loan Summary</p>
+        <div class="flex-1 block bg-white rounded-lg shadow">
+            <div class="bg-blue-600 w-full px-6 py-3 rounded-lg flex justify-between items-center">
+                <div>
+                    <h5 class="text-2xl font-bold tracking-tight  text-white">{{ loan.product_name }}</h5>
+                    <p class="text-sm  text-white">Loan Summary</p>
+                </div>
+                <!-- <button type="button" class="text-white font-semibold">Edit</button> -->
             </div>
             <div class="p-6">
                 <div class="">
@@ -43,8 +45,7 @@
             </div>
         </div>
 
-        <div
-                class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
+        <div class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
             <div class="bg-green-600 w-full px-6 py-3 rounded-lg">
                 <h5 class="text-2xl font-bold tracking-tight  text-white">Balance</h5>
                 <p class="text-sm  text-white">Balance Summary</p>
@@ -65,11 +66,13 @@
             </div>
         </div>
 
-        <div
-                class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
+        <div class="flex-1 block  bg-white border border-gray-200 rounded-lg shadow">
             <div class="bg-yellow-400 w-full px-6 py-3 rounded-lg">
-                <h5 class="text-2xl font-bold tracking-tight  text-black">{{ client.last_name }}, {{ client.first_name }}</h5>
-                <p class="text-sm  text-black">{{ client.email }}</p>
+                <div>
+                    <h5 class="text-2xl font-bold tracking-tight  text-black">{{ client.last_name }}, {{ client.first_name }}
+                    </h5>
+                    <p class="text-sm  text-black">{{ client.email }}</p>
+                </div>
             </div>
             <div class="p-6">
                 <div class="">
@@ -94,8 +97,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <section class="mt-6">
@@ -103,7 +104,8 @@
         <hr>
         <div class="relative max-h-[600px] overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg mt-5">
             <table class="relative w-full text-sm text-left text-gray-500 dark:text-gray-400 table">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 w-full top-0 left-0 sticky">
+                <thead
+                        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 w-full top-0 left-0 sticky">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         Due Date
@@ -144,6 +146,12 @@
                         <td class="px-6 py-4">
                             Php {{ payment.amount }}.00
                         </td>
+<<<<<<< HEAD
+=======
+                        <td class="px-6 py-4 text-right">
+                            <a href="#" class="font-medium text-red-600 dark:text-blue-500 hover:underline">Approve</a>
+                        </td>
+>>>>>>> f3b55a572368e1895a13d598c6fd1c65c9e93293
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -151,4 +159,4 @@
         </div>
     </section>
 {% endblock %}
-```
+
