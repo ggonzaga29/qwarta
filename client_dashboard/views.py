@@ -137,7 +137,7 @@ class ApplyLoanView(View):
         loan.save()
         print(loan)
 
-        return redirect("/client" + str(loan.loan_id))
+        return redirect("/client/")
 
 
 class PayView(View):
