@@ -11,8 +11,8 @@ class SeedView(View):
         generate_clients(num_clients=5)
         # generate_admins(num_admins=2)
         generate_credit_scores(num_credit_scores=10)
-        generate_loans(num_loans=20)
-        generate_payments()
+        # generate_loans(num_loans=20)
+        # generate_payments()
         return redirect('/')
 
 
