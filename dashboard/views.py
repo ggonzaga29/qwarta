@@ -114,9 +114,7 @@ class ViewLoanView(View):
             current_outstanding = 0
             for p in payments:
                 if p.status == "Pending":
-                    print(p.status)
                     current_outstanding += p.amount
-                    print(current_outstanding)
 
             context = {
                 "loan": loan,
@@ -176,9 +174,12 @@ class ApproveView(View):
         loan.save()
 
         current_date = loan.start_date
-        for _ in range(loan.loan_length + 1):
-            amount = (loan.amount_to_pay // loan.loan_length)
-            due_date = current_date + timedelta(days=30)
+        tentative_amount_to_pay = 0
+        for _ in range(loan.loan_length):
+            amount = (loan.amount_to_pay / loan.loan_length)
+            tentative_amount_to_pay += amount
+            # if index is last then due date is end date
+            due_date = loan.end_date if _ == loan.loan_length - 1 else current_date + timedelta(days=30)
             status = "Pending"
             is_late = False
 
@@ -193,6 +194,10 @@ class ApproveView(View):
 
             payment.save()
             current_date += timedelta(days=30)
+
+        loan.amount_to_pay = tentative_amount_to_pay
+        loan.save()
+        print(loan)
 
         return redirect(request.META.get('HTTP_REFERER'))
 
@@ -224,7 +229,7 @@ class CreateLoanView(View):
         loan.save()
         print(loan)
 
-        return render(request, "loan/create_loan.html", {})
+        return redirect("/dashboard/loans/" + str(loan.loan_id))
 
     def get(self, request):
         user_id = request.GET.get("user_id", None)
