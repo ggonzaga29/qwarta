@@ -15,6 +15,7 @@ urlpatterns = [
     path("loans/delete/<int:loan_id>/", views.DeleteLoanView.as_view(), name="delete"),
     path("clients/edit/", views.EditProfileClient.as_view(), name="edit"),
     path("clients/<int:user_id>/loans/", views.ClientLoanView.as_view(), name="edit"),
+    path("clients/delete/<int:user_id>/", views.DeleteClientView.as_view(), name="delete"),
     # create loan resource
     path("loans/create/", views.CreateLoanView.as_view(), name="create"),
     path("payments/", views.PaymentsView.as_view(), name="payments"),

@@ -3,11 +3,13 @@ black==23.7.0
 click==8.1.4
 colorama==0.4.6
 Django==4.2.3
+Faker==19.2.0
 mypy-extensions==1.0.0
 mysqlclient==2.2.0
 packaging==23.1
 pathspec==0.11.1
 platformdirs==3.8.1
+python-dateutil==2.8.2
+six==1.16.0
 sqlparse==0.4.4
 tzdata==2023.3
-Faker~=19.2.0

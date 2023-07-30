@@ -1,4 +1,6 @@
-from django.db.models import Sum
+import math
+
+from django.db.models import Sum, Q
 from django.shortcuts import render, redirect
 from django.views import View
 from django.utils.timezone import timedelta
@@ -9,6 +11,12 @@ from datetime import datetime
 class IndexView(View):
     def get(self, request):
         userCount = Client.objects.count()
+        status = request.GET.get("status", None)
+
+        pending = Loan.objects.filter(status="Pending").count()
+        approved = Loan.objects.filter(status="Approved").count()
+        totalLoans = Loan.objects.count()
+
         # Sum of payments
         processed_payments = Payment.objects.filter(status="Paid").aggregate(
             total_payments=Sum("amount")
@@ -17,13 +25,19 @@ class IndexView(View):
             total_payments=Sum("amount")
         )
 
-        loans = Loan.objects.all()
+        if status:
+            loans = Loan.objects.filter(status=status)
+        else:
+            loans = Loan.objects.all()
 
         context = {
             "userCount": userCount,
             "loans": loans,
             "totalPayments": processed_payments["total_payments"],
-            "totalUnprocessedPayments": unprocessed_payments["total_payments"]
+            "totalUnprocessedPayments": unprocessed_payments["total_payments"],
+            "pending": pending,
+            "approved": approved,
+            "totalLoans": totalLoans,
         }
 
         return render(request, "dashboard.html", context)
@@ -112,9 +126,7 @@ class ViewLoanView(View):
             current_outstanding = 0
             for p in payments:
                 if p.status == "Pending":
-                    print(p.status)
                     current_outstanding += p.amount
-                    print(current_outstanding)
 
             context = {
                 "loan": loan,
@@ -174,9 +186,12 @@ class ApproveView(View):
         loan.save()
 
         current_date = loan.start_date
-        for _ in range(loan.loan_length + 1):
-            amount = (loan.amount_to_pay // loan.loan_length)
-            due_date = current_date + timedelta(days=30)
+        tentative_amount_to_pay = 0
+        for _ in range(loan.loan_length):
+            amount = (loan.amount_to_pay / loan.loan_length)
+            tentative_amount_to_pay += amount
+            # if index is last then due date is end date
+            due_date = loan.end_date if _ == loan.loan_length - 1 else current_date + timedelta(days=30)
             status = "Pending"
             is_late = False
 
@@ -192,15 +207,48 @@ class ApproveView(View):
             payment.save()
             current_date += timedelta(days=30)
 
+        loan.amount_to_pay = tentative_amount_to_pay
+        loan.save()
+        print(loan)
+
         return redirect(request.META.get('HTTP_REFERER'))
 
 
 class CreateLoanView(View):
+
+    def post(self, request):
+        user_id = request.POST["user_id"]
+        start_date = request.POST["start_date"]
+        end_date = request.POST["end_date"]
+        product_name = request.POST["product_name"]
+        loan_length = request.POST["loan_length"]
+        amount = request.POST["amount"]
+        amount_to_pay = request.POST["amount_to_pay"]
+        interest = request.POST["interest"]
+
+        loan = Loan(
+            client_id=user_id,
+            product_name=product_name,
+            start_date=start_date,
+            end_date=end_date,
+            amount=amount,
+            amount_to_pay=float(amount_to_pay),
+            loan_length=loan_length,
+            interest_rate=interest,
+            status="Pending",
+        )
+
+        loan.save()
+        print(loan)
+
+        return redirect("/dashboard/loans/" + str(loan.loan_id))
+
     def get(self, request):
         user_id = request.GET.get("user_id", None)
         start_date = request.GET.get("start_date", None)
         end_date = request.GET.get("end_date", None)
         amount = request.GET.get("amount", None)
+        product_name = request.GET.get("product_name", None)
 
         clients = Client.objects.all()
         loan_length = 0
@@ -224,6 +272,9 @@ class CreateLoanView(View):
                 context["interest"] = 12
             elif credit.score > 300:
                 context["interest"] = 15
+
+        if product_name:
+            context["product_name"] = product_name
 
         if start_date:
             context["start_date"] = start_date
@@ -269,6 +320,21 @@ class ViewApproveView(View):
 class ClientsView(View):
     def get(self, request):
         clients = Client.objects.all()
+        search = request.GET.get("search", None)
+        sort_by = request.GET.get("sort_by", None)
+
+        if search:
+            clients = clients.filter(
+                Q(username__icontains=search)
+                | Q(email__icontains=search)
+                | Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+                | Q(address__icontains=search)
+                | Q(mobile_number__icontains=search)
+                | Q(occupation__icontains=search)
+                | Q(monthly_income__icontains=search)
+                | Q(net_worth__icontains=search)
+            )
 
         for client in clients:
             creditScore = CreditScore.objects.get(client_id=client.user_id)
@@ -304,6 +370,13 @@ class ClientsView(View):
 
         client.save()
 
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class DeleteClientView(View):
+    def get(self, request, user_id):
+        client = Client.objects.get(user_id=user_id)
+        client.delete()
         return redirect(request.META.get('HTTP_REFERER'))
 
 
@@ -353,5 +426,15 @@ class EditProfileClient(View):
         print(client.address)
 
         client.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class EditPaymentView(View):
+    def get(self, request, payment_id):
+        payment = Payment.objects.get(payment_id=payment_id)
+        payment.status = "Paid"
+        payment.date_paid = datetime.today()
+        payment.save()
 
         return redirect(request.META.get('HTTP_REFERER'))

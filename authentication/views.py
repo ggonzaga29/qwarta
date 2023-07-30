@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views import View
@@ -8,11 +10,11 @@ from .seed import generate_clients, generate_admins, generate_credit_scores, gen
 
 class SeedView(View):
     def get(self, request):
-        generate_clients(num_clients=5)
+        # generate_clients(num_clients=10)
         # generate_admins(num_admins=2)
         generate_credit_scores(num_credit_scores=10)
-        generate_loans(num_loans=20)
-        generate_payments()
+        # generate_loans(num_loans=20)
+        # generate_payments()
         return redirect('/')
 
 
@@ -98,8 +100,14 @@ class RegisterView(View):
         client.monthly_income = monthly_income
         client.net_worth = net_worth
 
-        # save user
+        credit_score = CreditScore()
+        credit_score.client_id = client
+        credit_score.score = 500
+        credit_score.date_updated = datetime.date.today()
+        credit_score.remarks = 'No remarks'
+
         client.save()
+        credit_score.save()
 
         # redirect to login page
         return redirect('/login')
