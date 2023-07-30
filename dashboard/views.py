@@ -358,6 +358,13 @@ class ClientsView(View):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
+class DeleteClientView(View):
+    def get(self, request, user_id):
+        client = Client.objects.get(user_id=user_id)
+        client.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
 class PaymentsView(View):
     def get(self, request):
         status_param = request.GET.get("status", "Paid")
