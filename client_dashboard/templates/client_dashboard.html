@@ -12,6 +12,7 @@
             <a href="/client/support/" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                 Contact Customer Service
             </a>
+        </div>
 
         <section class="mt-5">
             <h2 class="text-2xl font-bold">Loans</h2>
@@ -72,8 +73,8 @@
                                 Php {{ loan.amount }}.00
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <a href="/dashboard/loans/{{ loan.loan_id }}"
-                                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a> |
+                                <a href="/client/loan/{{ loan.loan_id }}"
+                                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -81,9 +82,5 @@
                 </table>
             </div>
         </section>
-
-        <script>
-
-        </script>
     </div>
 {% endblock %}

@@ -56,8 +56,6 @@ class ViewLoanView(View):
             return redirect("/client_dashboard/")
 
 
-
-
 class ApplyLoanView(View):
     def get(self, request, client_id):
         user_id = request.session["user_id"]
@@ -144,3 +142,28 @@ class PayView(View):
     def get(self, request):
         test = True
 
+
+class ViewLoanView(View):
+    def get(self, request, loan_id):
+        try:
+            loan = Loan.objects.get(loan_id=loan_id)
+            payments = Payment.objects.filter(loan_id=loan_id)
+            client = Client.objects.get(user_id=loan.client.user_id)
+
+            # payments = list(payments).sort(key=lambda r: r.due_date)
+
+            current_outstanding = 0
+            for p in payments:
+                if p.status == "Pending":
+                    current_outstanding += p.amount
+
+            context = {
+                "loan": loan,
+                "client": client,
+                "payments": payments,
+                "current_outstanding": current_outstanding
+            }
+
+            return render(request, "view_loan.html", context)
+        except Loan.DoesNotExist:
+            return redirect("/client/")
