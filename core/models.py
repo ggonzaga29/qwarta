@@ -10,7 +10,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
-    mobile_number = models.CharField(max_length=12)
+    mobile_number = models.CharField(max_length=21)
     user_type = models.CharField(max_length=50, default='client')  # client, admin
 
 class Client(User):
