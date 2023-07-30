@@ -1,0 +1,168 @@
+{% extends 'includes/main.html' %}
+
+{% block title %}Apply Loan - Qwarta{% endblock %}
+
+{% block heading %}
+    Apply Loan
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <!-- Hidden user id -->
+        <input type="hidden" name="user_id" value="{{ user_id }}">
+        <div class="my-4 max-w-md">
+            <label for="product_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">What is this
+                loan for?</label>
+            <input type="text" name="product_name" id="product_name" required value="{{ product_name }}"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <div>
+            <h2 class="text-xl font-bold mt-5">Loan Details</h2>
+
+            <!-- Client Details -->
+            <section class="text-sm mt-2 flex flex-col gap-2">
+                <div>
+                    <span class="font-semibold">Client: </span>
+                    {% if user_id %}
+                        {{ clients.first_name }} {{ clients.last_name }}
+
+                    {% else %}
+                        <span class="text-gray-500">No client selected</span>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <span class="font-semibold">Credit Score: </span>
+                    {% if clients.user_id %}
+                        {{ credit.score }}
+                    {% else %}
+                        <span class="text-gray-500">No client selected</span>
+                    {% endif %}
+                </div>
+                <div>
+                    <span class="font-semibold">Interest Rate: </span>
+                    {% if clients.user_id %}
+                        {{ interest }} %
+                    {% else %}
+                        <span class="text-gray-500">No client selected</span>
+                    {% endif %}
+                </div>
+            </section>
+
+            <div class="flex items-center mt-5 ">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                    </div>
+                    <input id="start_date" name="start_date" type="date" {% if not clients.user_id %}disabled="disabled"{% endif %}
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           placeholder="Select date start">
+                </div>
+                <span class="mx-4 text-gray-500">to</span>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                    </div>
+                    <input id="end_date" name="end_date" type="date" {% if not clients.user_id %}disabled="disabled"{% endif %}
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           placeholder="Select date end">
+                </div>
+
+                {% if loan_length %}
+                    <input type="text" class="hidden" value="{{ loan_length }}" name="loan_length">
+                    <span class="mx-4 text-gray-500">{{ loan_length }} month(s)</span>
+                {% endif %}
+            </div>
+
+
+            <div class="mt-6 gap-5 {% if start_date and end_date %}grid grid-cols-3{% else %}hidden{% endif %}">
+                <div>
+                    <label for="amount"
+                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
+                    <input type="text" name="amount" id="amount" placeholder="1.00" value="{{ amount }}"
+                           min="5000"
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+
+                {% if user_id %}
+                    <input type="hidden" name="interest" id="interest" placeholder="10%" value="{{ interest }}"
+                           class="pointer-events-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                    <div>
+                        <label for="amount_to_pay"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount
+                            to pay</label>
+                        <input type="text" name="amount_to_pay" id="amount_to_pay" placeholder="0.00"
+                               value="{{ amount_to_pay }}"
+                               class="pointer-events-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if amount_to_pay %}
+                <button type="submit"
+                        class="mt-5 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    Apply Loan
+                </button>
+            {% endif %}
+        </div>
+    </form>
+
+    <script>
+        const clients = document.getElementById('clients');
+        const start_date = document.getElementById('start_date');
+        const end_date = document.getElementById('end_date');
+        const product_name = document.getElementById('product_name');
+
+        const amount = document.getElementById('amount');
+        const interest = document.getElementById('interest');
+        const amount_to_pay = document.getElementById('amount_to_pay');
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const user_id = urlParams.get('user_id');
+        const start_date_min = urlParams.get('start_date') ? urlParams.get('start_date') : new Date().toISOString().split('T')[0];
+
+        // handle amountParam being null
+        const amountParam = urlParams.get('amount');
+
+        if (amountParam) {
+            amount.value = parseInt(amountParam)
+        } else {
+            amount.value = 5000;
+        }
+
+        const oneMonthLater = new Date(start_date_min);
+        oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+
+        start_date.setAttribute('min', start_date_min);
+        end_date.setAttribute('min', new Date(oneMonthLater + 1).toISOString().split('T')[0]);
+
+        start_date.setAttribute('value', urlParams.get('start_date'));
+        end_date.setAttribute('value', urlParams.get('end_date'));
+
+
+        product_name.addEventListener('change', () => {
+                window.location.href = `/client/apply/{{ clients.user_id }}/?product_name=${product_name.value}`;
+        });
+
+        start_date.addEventListener('change', () => {
+                window.location.href = `/client/apply/{{ clients.user_id }}/?product_name=${product_name.value}&start_date=${start_date.value}`;
+        });
+
+        end_date.addEventListener('change', () => {
+                window.location.href = `/client/apply/{{ clients.user_id }}/?product_name=${product_name.value}&start_date=${start_date.value}&end_date=${end_date.value}`;
+        });
+
+        amount.addEventListener('change', () => {
+                window.location.href = `/client/apply/{{ clients.user_id }}/?product_name=${product_name.value}&start_date=${start_date.value}&end_date=${end_date.value}&amount=${parseInt(amount.value.replace(',', ''))}`;
+        });
+    </script>
+{% endblock %}
