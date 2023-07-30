@@ -22,8 +22,10 @@ class IndexView(View):
         # Fetch loans belonging to the current user
         client = Client.objects.get(user_id=request.session.get('user_id'))
         loans = Loan.objects.filter(client=client)
+        credit = CreditScore.objects.get(client_id_id=client.user_id)
 
         context = {
+            "creditscore": credit,
             "userCount": userCount,
             "loans": loans,
             "totalPayments": processed_payments["total_payments"],
