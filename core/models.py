@@ -13,6 +13,7 @@ class User(models.Model):
     mobile_number = models.CharField(max_length=21)
     user_type = models.CharField(max_length=50, default='client')  # client, admin
 
+
 class Client(User):
     occupation = models.CharField(default='Unemployed', max_length=50)
     monthly_income = models.DecimalField(default=0, max_digits=10, decimal_places=2)

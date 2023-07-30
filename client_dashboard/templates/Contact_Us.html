@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+</head>
+<body>
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h1 style="text-align: center; font-size: 2rem; font-weight: bold;">Contact Us</h1>
+        <form onsubmit="showMessage(event)">
+            <label for="message" style="font-size: 1rem;">Message:</label>
+            <br>
+            <textarea id="message" name="message" rows="4" cols="50" required style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+            <br>
+            <button type="submit" style="background-color: #3b82f6; color: #ffffff; font-weight: bold; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Send Message</button>
+        </form>
+        <div id="messageResult" style="text-align: center; margin-top: 20px; font-weight: bold; display: none;"></div>
+    </div>
+
+    <script>
+        function showMessage(event) {
+            event.preventDefault(); // Prevent form submission to stay on the same page
+            var messageTextarea = document.getElementById('message');
+            var messageResultDiv = document.getElementById('messageResult');
+            messageResultDiv.style.display = 'block'; // Show the result message div
+            messageResultDiv.textContent = 'Message sent!'; // Set the content of the message result div
+        }
+    </script>
+</body>
+</html>
