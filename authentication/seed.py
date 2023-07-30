@@ -60,7 +60,7 @@ def generate_clients(num_clients):
             first_name=fake.first_name(),
             last_name=fake.last_name(),
             address=fake.address(),
-            mobile_number="0000000",
+            mobile_number=fake.phone_number(),
             occupation=fake.job(),
             monthly_income=random.randint(1000, 10000),
             net_worth=random.randint(10000, 100000)
@@ -158,7 +158,7 @@ def generate_payments():
     loans = Loan.objects.filter(status='Approved')
     for loan in loans:
         current_date = loan.start_date
-        for i   in range(loan.loan_length + 1):
+        for i in range(loan.loan_length + 1):
             # due date is 30 days after start date
             # multiplied by interest rate
             amount = (loan.amount_to_pay // loan.loan_length)

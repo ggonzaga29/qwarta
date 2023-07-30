@@ -49,7 +49,7 @@ class Loan(models.Model):
     # Loan status
     status = models.CharField(max_length=50, default='Pending')  # Pending, Approved, Rejected, Paid
     # Foreign keys
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client  = models.ForeignKey(Client, on_delete=models.CASCADE)
     approved_by = models.ForeignKey(Admin, on_delete=models.CASCADE, default=None, null=True)
 
 
