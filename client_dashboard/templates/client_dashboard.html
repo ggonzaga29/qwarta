@@ -1,13 +1,89 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'includes/main.html' %}
 
-</body>
-</html>
+{% block title %}Home - Qwarta{% endblock %}
+
+{% block heading %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+    <div class="max-w-full sm:mx-auto">
+        <div class="my-4">
+            <a href="contact/" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Contact Customer Service
+            </a>
+
+        <section class="mt-5">
+            <h2 class="text-2xl font-bold">Loans</h2>
+            <hr>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Product name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Start Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            End Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Issue Date (Approved)
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Length (Months)
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Interest Rate
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Amount
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="sr-only">Edit</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for loan in loans %}
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ loan.product_name }}
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ loan.start_date }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ loan.end_date }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ loan.issue_date }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ loan.loan_length }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ loan.interest_rate }}%
+                            </td>
+                            <td class="px-6 py-4">
+                                Php {{ loan.amount }}.00
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <a href="/dashboard/loans/{{ loan.loan_id }}"
+                                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a> |
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <script>
+
+        </script>
+    </div>
+{% endblock %}
