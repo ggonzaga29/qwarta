@@ -150,19 +150,19 @@
 
 
         product_name.addEventListener('change', () => {
-                window.location.href = `/client/loan/apply/{{ clients.user_id }}/?product_name=${product_name.value}`;
+                window.location.href = `/client/apply/{{ clients.user_id }}/?product_name=${product_name.value}`;
         });
 
         start_date.addEventListener('change', () => {
-                window.location.href = `/client/loan/apply/{{ clients.user_id }}/?product_name=${product_name.value}&start_date=${start_date.value}`;
+                window.location.href = `/client/apply/{{ clients.user_id }}/?product_name=${product_name.value}&start_date=${start_date.value}`;
         });
 
         end_date.addEventListener('change', () => {
-                window.location.href = `/client/loan/apply/{{ clients.user_id }}/?product_name=${product_name.value}&start_date=${start_date.value}&end_date=${end_date.value}`;
+                window.location.href = `/client/apply/{{ clients.user_id }}/?product_name=${product_name.value}&start_date=${start_date.value}&end_date=${end_date.value}`;
         });
 
         amount.addEventListener('change', () => {
-                window.location.href = `/client/loan/apply/{{ clients.user_id }}/?product_name=${product_name.value}&start_date=${start_date.value}&end_date=${end_date.value}&amount=${parseInt(amount.value.replace(',', ''))}`;
+                window.location.href = `/client/apply/{{ clients.user_id }}/?product_name=${product_name.value}&start_date=${start_date.value}&end_date=${end_date.value}&amount=${parseInt(amount.value.replace(',', ''))}`;
         });
     </script>
 {% endblock %}

@@ -89,4 +89,4 @@ class ApplyLoanView(View):
         loan.save()
         print(loan)
 
-        return redirect("/dashboard/loans/" + str(loan.loan_id))
+        return redirect("/client" + str(loan.loan_id))
