@@ -90,3 +90,9 @@ class ApplyLoanView(View):
         print(loan)
 
         return redirect("/client" + str(loan.loan_id))
+
+
+class PayView(View):
+    def get(self, request):
+        test = True
+
