@@ -1,0 +1,49 @@
+{% extends 'includes/header.html' %}
+
+{% block title %}Home - Qwarta{% endblock %}
+
+{% block heading %}
+    Loans for {{ client.first_name }} {{ client.last_name }}
+{% endblock %}
+
+{% block content %}
+    <div class="flex flex-col gap-2">
+        {% for loan in loans %}
+            {#        <ul>#}
+            {#            <li>{{ loan.product_name }}</li>#}
+            {#            <li>{{ loan.amount }}</li>#}
+            {#            <li>{{ loan.interest_ratte }}</li>#}
+            {#            <li>{{ loan.start_date }}</li>#}
+            {#            <li>{{ loan.end_date }}</li>#}
+            {#        </ul>#}
+
+            <div class="flex gap-5">
+                <div onclick="window.location.href='/dashboard/loans/{{ loan.loan_id }}'"
+                     class="flex flex-1 justify-between items-center p-6 bg-white border border-gray-200 rounded-lg shadow cursor-pointer hover:bg-gray-100 z-10">
+                    <h5 class="font-bold flex-1">
+                        {{ loan.product_name }}
+                    </h5>
+                    <div class="flex items-center gap-2">
+                        <p class="text-sm text-gray-500">
+                            Php {{ loan.amount }}.00
+                        </p>
+
+                        {% if loan.status == "Approved" %}
+                            <span class="flex-1 bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ loan.status }}</span>
+                        {% elif loan.status == "Pending" %}
+                            <span class="flex-1 bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{ loan.status }}</span>
+                        {% else %}
+                            <span class="flex-1 bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{ loan.status }}</span>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
+```
