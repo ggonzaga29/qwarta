@@ -13,6 +13,7 @@ class User(models.Model):
     mobile_number = models.CharField(max_length=21)
     user_type = models.CharField(max_length=50, default='client')  # client, admin
 
+
 class Client(User):
     occupation = models.CharField(default='Unemployed', max_length=50)
     monthly_income = models.DecimalField(default=0, max_digits=10, decimal_places=2)
@@ -49,7 +50,7 @@ class Loan(models.Model):
     # Loan status
     status = models.CharField(max_length=50, default='Pending')  # Pending, Approved, Rejected, Paid
     # Foreign keys
-    client  = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     approved_by = models.ForeignKey(Admin, on_delete=models.CASCADE, default=None, null=True)
 
 

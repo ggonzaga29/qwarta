@@ -1,7 +1,11 @@
 from datetime import datetime
 
+from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
+
+from core.models import Client, Payment, Loan, CreditScore
+
 
 class IndexView(View):
     def get(self, request):
