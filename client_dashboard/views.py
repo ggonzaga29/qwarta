@@ -1,10 +1,9 @@
 from datetime import datetime
-
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
-
 from core.models import Client, Payment, Loan, CreditScore
+
 
 
 class IndexView(View):
@@ -12,12 +11,13 @@ class IndexView(View):
         userCount = Client.objects.count()
 
         # Sum of payments
-        processed_payments = Payment.objects.filter(status="Paid").aggregate(
+        processed_payments = Payment.objects.filter(status="Paid", client_id=request.session.get('user_id')).aggregate(
             total_payments=Sum("amount")
         )
-        unprocessed_payments = Payment.objects.filter(status="Pending").aggregate(
+        unprocessed_payments = Payment.objects.filter(status="Pending", client_id=request.session.get('user_id')).aggregate(
             total_payments=Sum("amount")
         )
+        latest_payments = Payment.objects.filter(client_id=request.session.get('user_id')).order_by('-date_paid')[:5]
 
         # Fetch loans belonging to the current user
         client = Client.objects.get(user_id=request.session.get('user_id'))
@@ -27,7 +27,8 @@ class IndexView(View):
             "userCount": userCount,
             "loans": loans,
             "totalPayments": processed_payments["total_payments"],
-            "totalUnprocessedPayments": unprocessed_payments["total_payments"]
+            "totalUnprocessedPayments": unprocessed_payments["total_payments"],
+            "latestPayments": latest_payments
         }
 
         return render(request, "client_dashboard.html", context)
@@ -139,9 +140,9 @@ class ApplyLoanView(View):
 
 
 class PaymentView(View):
-    def post(self, request):
+    def post(self, request, payment_id):
         # Pay loan
-        payment_id = request.POST["payment_id"]
+
         loan_id = request.POST["loan_id"]
 
         payment = Payment.objects.get(payment_id=payment_id, loan_id=loan_id)

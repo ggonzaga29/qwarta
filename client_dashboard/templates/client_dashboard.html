@@ -3,125 +3,133 @@
 {% block title %}Home - Qwarta{% endblock %}
 
 {% block heading %}
-    Dashboard
+Dashboard
 {% endblock %}
 
 {% block content %}
-    <div class="max-w-full sm:mx-auto">
-        <section class="mt-5">
-                <div class="flex my-5 gap-5 h-[256px] items-center">
-                    <div class="w-[196px] h-full bg-blue-900 rounded-xl my-2 overflow-hidden relative flex justify-center items-center">
-                        <div class="z-20 text-center">
-                            <h3 class="text-white font-medium uppercase text-md relative top-[-16px]">Credit Score</h3>
-                            <h2 class="text-[64px] font-bold text-white">500</h2>
-                        </div>
-                        <div class="w-[256px] h-[256px] rounded-full bg-green-500 absolute top-[-160px] right-[-150px] z-10"></div>
-                        <div class="w-[256px] h-[256px] rounded-full bg-orange-600 absolute bottom-[-160px] left-[-150px] z-10"></div>
-                    </div>
-                    <div class="flex-[2] h-full">
-                        <div class="bg-white font-medium rounded-lg shadow h-full w-full p-6 flex flex-col justify-between">
-                            <h2>TOTAL LOAN BALANCE</h2>
+<div class="max-w-full sm:mx-auto">
+    <section class="mt-5">
+        <div class="flex my-5 gap-5 h-[256px] items-center">
+            <div class="w-[196px] h-full bg-blue-900 rounded-xl my-2 overflow-hidden relative flex justify-center items-center">
+                <div class="z-20 text-center">
+                    <h3 class="text-white font-medium uppercase text-md relative top-[-16px]">Credit Score</h3>
+                    <h2 class="text-[64px] font-bold text-white">500</h2>
+                </div>
+                <div class="w-[256px] h-[256px] rounded-full bg-green-500 absolute top-[-160px] right-[-150px] z-10"></div>
+                <div class="w-[256px] h-[256px] rounded-full bg-orange-600 absolute bottom-[-160px] left-[-150px] z-10"></div>
+            </div>
+            <div class="flex-[2] h-full">
+                <div class="bg-white font-medium rounded-lg shadow h-full w-full p-6 flex flex-col justify-between">
+                    <h2>TOTAL LOAN BALANCE</h2>
 
-                            <div>
-                                <span class="text-2xl">PHP</span>
-                                <span class="text-[72px] font-bold">250,000</span>
-                                <span class="text-2xl">.00</span>
-                            </div>
-
-                            <div>
-                                &nbsp;
-                            </div>
-                        </div>
+                    <div>
+                        <span class="text-2xl">PHP</span>
+                        <span class="text-[72px] font-bold">250,000</span>
+                        <span class="text-2xl">.00</span>
                     </div>
-                    <div class="flex-[1] bg-white rounded-xl shadow h-full flex flex-col justify-center items-center">
+
+                    <div>
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="flex-[1] bg-white rounded-xl shadow h-full flex flex-col justify-center items-center">
                     <span class="text-6xl font-bold tracking-tighter">
                     50%
                     </span>
-                        <span class="text-xl font-medium text-gray-500">
+                <span class="text-xl font-medium text-gray-500">
                     Paid
                     </span>
-                    </div>
-                </div>
-
-            </section>
-
-            <section class="grid grid-cols-2 gap-5 mt-10">
-                <div>
-                    <h2 class="text-2xl font-bold">Payments</h2>
-                </div>
-
-                <div>
-                    <h2 class="text-2xl font-bold">Loans</h2>
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
-                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">
-                                    Product name
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Start Date
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    End Date
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Issue Date (Approved)
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Length (Months)
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Interest Rate
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Amount
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    <span class="sr-only">Edit</span>
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for loan in loans %}
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ loan.product_name }}
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        {{ loan.start_date }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ loan.end_date }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ loan.issue_date }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ loan.loan_length }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ loan.interest_rate }}%
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        Php {{ loan.amount }}.00
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="/dashboard/loans/{{ loan.loan_id }}"
-                                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <script>
-            </script>
+            </div>
         </div>
-    </div>
+
+    </section>
+
+    <section class="grid grid-cols-2 gap-5 mt-10">
+        <div>
+            <h2 class="text-2xl font-bold">Payments</h2>
+            <div class="flex-[1] bg-white rounded-xl shadow h-full flex flex-col justify-center items-center">
+                <ul>
+                    {% for payment in latestPayments %}
+                    <li>
+                        <span>{{ payment.amount }} PHP</span>
+                        <span>{{ payment.date_paid }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div>
+            <h2 class="text-2xl font-bold">Loans</h2>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Product name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Start Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            End Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Issue Date (Approved)
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Length (Months)
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Interest Rate
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Amount
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="sr-only">Edit</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for loan in loans %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ loan.product_name }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ loan.start_date }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ loan.end_date }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ loan.issue_date }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ loan.loan_length }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ loan.interest_rate }}%
+                        </td>
+                        <td class="px-6 py-4">
+                            Php {{ loan.amount }}.00
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <a href="/dashboard/loans/{{ loan.loan_id }}"
+                               class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    </script>
+</div>
+</div>
 {% endblock %}
