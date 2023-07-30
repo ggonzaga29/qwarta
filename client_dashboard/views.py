@@ -137,10 +137,20 @@ class ApplyLoanView(View):
         loan.save()
         print(loan)
 
-        return redirect("/client/")
+        return redirect("/client" + str(loan.loan_id))
 
 
-class PayView(View):
-    def get(self, request):
-        test = True
+class PaymentView(View):
+    def post(self, request):
+        # Pay loan
+        payment_id = request.POST["payment_id"]
+        loan_id = request.POST["loan_id"]
 
+        payment = Payment.objects.get(payment_id=payment_id, loan_id=loan_id)
+        payment.status = "Paid"
+        payment.date_paid = datetime.now()
+        payment.is_late = payment.due_date < payment.date_paid
+
+        payment.save()
+
+        return redirect("/client_dashboard/loan/" + str(loan_id))
