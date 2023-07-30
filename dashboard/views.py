@@ -1,6 +1,6 @@
 import math
 
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.shortcuts import render, redirect
 from django.views import View
 from django.utils.timezone import timedelta
@@ -320,6 +320,21 @@ class ViewApproveView(View):
 class ClientsView(View):
     def get(self, request):
         clients = Client.objects.all()
+        search = request.GET.get("search", None)
+        sort_by = request.GET.get("sort_by", None)
+
+        if search:
+            clients = clients.filter(
+                Q(username__icontains=search)
+                | Q(email__icontains=search)
+                | Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+                | Q(address__icontains=search)
+                | Q(mobile_number__icontains=search)
+                | Q(occupation__icontains=search)
+                | Q(monthly_income__icontains=search)
+                | Q(net_worth__icontains=search)
+            )
 
         for client in clients:
             creditScore = CreditScore.objects.get(client_id=client.user_id)
@@ -356,6 +371,11 @@ class ClientsView(View):
         client.save()
 
         return redirect(request.META.get('HTTP_REFERER'))
+
+
+class CreateClientView(View):
+
+    
 
 
 class DeleteClientView(View):
