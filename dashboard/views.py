@@ -11,6 +11,12 @@ from datetime import datetime
 class IndexView(View):
     def get(self, request):
         userCount = Client.objects.count()
+        status = request.GET.get("status", None)
+
+        pending = Loan.objects.filter(status="Pending").count()
+        approved = Loan.objects.filter(status="Approved").count()
+        totalLoans = Loan.objects.count()
+
         # Sum of payments
         processed_payments = Payment.objects.filter(status="Paid").aggregate(
             total_payments=Sum("amount")
@@ -19,13 +25,19 @@ class IndexView(View):
             total_payments=Sum("amount")
         )
 
-        loans = Loan.objects.all()
+        if status:
+            loans = Loan.objects.filter(status=status)
+        else:
+            loans = Loan.objects.all()
 
         context = {
             "userCount": userCount,
             "loans": loans,
             "totalPayments": processed_payments["total_payments"],
-            "totalUnprocessedPayments": unprocessed_payments["total_payments"]
+            "totalUnprocessedPayments": unprocessed_payments["total_payments"],
+            "pending": pending,
+            "approved": approved,
+            "totalLoans": totalLoans,
         }
 
         return render(request, "dashboard.html", context)
@@ -392,5 +404,15 @@ class EditProfileClient(View):
         print(client.address)
 
         client.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class EditPaymentView(View):
+    def get(self, request, payment_id):
+        payment = Payment.objects.get(payment_id=payment_id)
+        payment.status = "Paid"
+        payment.date_paid = datetime.today()
+        payment.save()
 
         return redirect(request.META.get('HTTP_REFERER'))
