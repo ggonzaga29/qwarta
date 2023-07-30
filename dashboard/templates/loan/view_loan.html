@@ -15,7 +15,9 @@
                     <h5 class="text-2xl font-bold tracking-tight  text-white">{{ loan.product_name }}</h5>
                     <p class="text-sm  text-white">Loan Summary</p>
                 </div>
-                <!-- <button type="button" class="text-white font-semibold">Edit</button> -->
+                {% if loan.status == "Pending" %}
+                    <button type="button" class="text-white font-semibold">Edit</button>
+                {% endif %}
             </div>
             <div class="p-6">
                 <div class="">
@@ -100,7 +102,7 @@
                         </h5>
                         <p class="text-sm  text-black">{{ client.email }}</p>
                     </div>
-                    <button type="button" class="text-white font-semibold btn">Edit</button>
+                    <button type="button" class="text-black font-semibold btn">Edit</button>
                 </div>
                 <div class="p-6">
                     <div class="flex flex-col gap-2">

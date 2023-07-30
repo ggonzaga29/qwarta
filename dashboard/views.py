@@ -373,11 +373,6 @@ class ClientsView(View):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-class CreateClientView(View):
-
-    
-
-
 class DeleteClientView(View):
     def get(self, request, user_id):
         client = Client.objects.get(user_id=user_id)

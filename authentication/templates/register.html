@@ -292,19 +292,6 @@
                     addressInput.removeErrorMessage();
                 }
 
-                if (mobileNumberInput.value.length < 9) {
-                    mobileNumberInput.focus();
-                    mobileNumberInput.classList.add('border-red-500');
-                    mobileNumberInput.classList.add('focus:ring-red-500');
-                    mobileNumberInput.nextElementSibling.innerText = 'Mobile number must be at least 9 characters long';
-                    mobileNumberInput.nextElementSibling.classList.add('text-red-500');
-                    return;
-                } else {
-                    mobileNumberInput.classList.remove('border-red-500');
-                    mobileNumberInput.classList.remove('focus:ring-red-500');
-                    mobileNumberInput.nextElementSibling.innerText = '';
-                    mobileNumberInput.nextElementSibling.classList.remove('text-red-500');
-                }
             }
 
 
@@ -401,8 +388,8 @@
             }
 
             if (currentStep === stepContainers.length) {
-                nextButton.classList.add('none');
-                submitButton.classList.remove('block');
+                nextButton.classList.add('hidden');
+                submitButton.classList.remove('hidden');
             } else {
                 nextButton.classList.remove('hidden');
                 submitButton.classList.add('hidden');

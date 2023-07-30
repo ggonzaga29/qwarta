@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views import View
@@ -98,8 +100,14 @@ class RegisterView(View):
         client.monthly_income = monthly_income
         client.net_worth = net_worth
 
-        # save user
+        credit_score = CreditScore()
+        credit_score.client_id = client
+        credit_score.score = 500
+        credit_score.date_updated = datetime.date.today()
+        credit_score.remarks = 'No remarks'
+
         client.save()
+        credit_score.save()
 
         # redirect to login page
         return redirect('/login')
