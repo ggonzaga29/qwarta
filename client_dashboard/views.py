@@ -5,31 +5,36 @@ from django.views import View
 from core.models import Client, Payment, Loan, CreditScore
 
 
-
 class IndexView(View):
     def get(self, request):
-        userCount = Client.objects.count()
+        current_user = request.session.get('user_id')
 
-        # Sum of payments
-        processed_payments = Payment.objects.filter(status="Paid", client_id=request.session.get('user_id')).aggregate(
-            total_payments=Sum("amount")
-        )
-        unprocessed_payments = Payment.objects.filter(status="Pending", client_id=request.session.get('user_id')).aggregate(
-            total_payments=Sum("amount")
-        )
-        latest_payments = Payment.objects.filter(client_id=request.session.get('user_id')).order_by('-date_paid')[:5]
+        user_credit_score = CreditScore.objects.get(client_id_id=current_user)
+        latest_payments = Payment.objects.filter(client_id=request.session.get('user_id')).order_by('due_date')
+
+        for p in latest_payments:
+            loan = Loan.objects.get(loan_id=p.loan_id.loan_id)
+            p.loan = loan
 
         # Fetch loans belonging to the current user
+        loans = Loan.objects.filter(client_id=request.session.get('user_id'), status="Approved")
+        all_loans = Loan.objects.filter(client_id=request.session.get('user_id'))
         client = Client.objects.get(user_id=request.session.get('user_id'))
-        loans = Loan.objects.filter(client=client)
-        credit = CreditScore.objects.get(client_id_id=client.user_id)
+        total_loans_amount = Loan.objects.filter(client_id=request.session.get('user_id')).aggregate(
+            Sum('amount_to_pay'))
+        unpaid_total = Payment.objects.filter(status="Pending", client_id=client.user_id).aggregate(Sum('amount'))
+        paid_total = Payment.objects.filter(status="Paid", client_id=client.user_id).aggregate(Sum('amount'))
+        paid_total = paid_total["amount__sum"] if paid_total["amount__sum"] else 0
+        paid_percentage = (paid_total / total_loans_amount["amount_to_pay__sum"]) * 100 if paid_total > 0 else 0
 
         context = {
-            "creditscore": credit,
-            "userCount": userCount,
+            "creditscore": user_credit_score,
+            "unpaid_total": unpaid_total["amount__sum"] if unpaid_total["amount__sum"] else 0,
+            "paid_total": paid_total,
+            "all_loans": all_loans,
             "loans": loans,
-            "totalPayments": processed_payments["total_payments"],
-            "totalUnprocessedPayments": unprocessed_payments["total_payments"],
+            "totalPayments": latest_payments,
+            "paid_percentage": "{:.2f}".format(paid_percentage),
             "latestPayments": latest_payments
         }
 
@@ -60,7 +65,7 @@ class ViewLoanView(View):
 
 
 class ApplyLoanView(View):
-    def get(self, request, client_id):
+    def get(self, request):
         user_id = request.session["user_id"]
         start_date = request.GET.get("start_date", None)
         end_date = request.GET.get("end_date", None)
@@ -142,19 +147,17 @@ class ApplyLoanView(View):
 
 
 class PaymentView(View):
-    def post(self, request, payment_id):
+    def get(self, request, payment_id):
         # Pay loan
-
-        loan_id = request.POST["loan_id"]
-
-        payment = Payment.objects.get(payment_id=payment_id, loan_id=loan_id)
+        payment = Payment.objects.get(payment_id=payment_id)
         payment.status = "Paid"
-        payment.date_paid = datetime.now()
-        payment.is_late = payment.due_date < payment.date_paid
+        payment.date_paid = datetime.today()
+        payment.is_late = payment.date_paid.date() > payment.due_date
 
         payment.save()
 
-        return redirect("/client_dashboard/loan/" + str(loan_id))
+        return redirect(request.META.get('HTTP_REFERER'))
+
 
 class ViewLoanView(View):
     def get(self, request, loan_id):
